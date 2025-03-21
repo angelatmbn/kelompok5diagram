@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\PegawaiResource\Pages;
+namespace App\Filament\Resources\PegawaiiResource\Pages;
 
-use App\Filament\Resources\PegawaiResource;
+use App\Filament\Resources\PegawaiiResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditPegawai extends EditRecord
+class EditPegawaii extends EditRecord
 {
-    protected static string $resource = PegawaiResource::class;
+    protected static string $resource = PegawaiiResource::class;
 
     protected function getHeaderActions(): array
     {

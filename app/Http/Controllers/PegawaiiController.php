@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pegawai;
-use App\Http\Requests\StorePegawaiRequest;
-use App\Http\Requests\UpdatePegawaiRequest;
+use App\Models\Pegawaii;
+use App\Http\Requests\StorePegawaiiRequest;
+use App\Http\Requests\UpdatePegawaiiRequest;
 
-class PegawaiController extends Controller
+class PegawaiiController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class PegawaiController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePegawaiRequest $request)
+    public function store(StorePegawaiiRequest $request)
     {
         //
     }
@@ -35,7 +35,7 @@ class PegawaiController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Pegawai $pegawai)
+    public function show(Pegawaii $pegawaii)
     {
         //
     }
@@ -43,7 +43,7 @@ class PegawaiController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Pegawai $pegawai)
+    public function edit(Pegawaii $pegawaii)
     {
         //
     }
@@ -51,7 +51,7 @@ class PegawaiController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePegawaiRequest $request, Pegawai $pegawai)
+    public function update(UpdatePegawaiiRequest $request, Pegawaii $pegawaii)
     {
         //
     }
@@ -59,7 +59,7 @@ class PegawaiController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Pegawai $pegawai)
+    public function destroy(Pegawaii $pegawaii)
     {
         //
     }
