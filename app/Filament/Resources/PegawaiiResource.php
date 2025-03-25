@@ -33,14 +33,14 @@ class PegawaiiResource extends Resource
         return $form
             ->schema([
                 TextInput::make('id_pegawai')
-                ->default(fn () => Pegawaii::getIdPegawai()) // Ambil default dari method getKodeBarang
+                ->default(fn () => Pegawaii::getIdPegawai()) 
                 ->label('Id Pegawai')
                 ->required()
-                ->readonly() // Membuat field menjadi read-only
+                ->readonly() 
             ,
             TextInput::make('nama')
                 ->required()
-                ->placeholder('Masukkan nama pegawai') // Placeholder untuk membantu pengguna
+                ->placeholder('Masukkan nama pegawai') 
             ,
             DatePicker::make('tanggal_lahir')
                     ->label('Tanggal Lahir')
@@ -88,7 +88,7 @@ class PegawaiiResource extends Resource
                 TextColumn::make('no_telp')
                 ->searchable()
                 ->sortable(),
-            TextColumn::make('Shift')
+            TextColumn::make('shift')
 
 
             ])
