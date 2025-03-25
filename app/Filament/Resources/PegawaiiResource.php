@@ -88,7 +88,8 @@ class PegawaiiResource extends Resource
                 TextColumn::make('no_telp')
                 ->searchable()
                 ->sortable(),
-            TextColumn::make('Shift')
+            TextColumn::make('shift') // Perubahan disini
+            ->label('Shift')
 
 
             ])
