@@ -32,9 +32,11 @@ class KategoriMenuResource extends Resource
         return $form
         ->schema([
             TextInput::make('id_kategori')
+            ->default(fn () => kategorimenu::getKategoriMenu()) // Ambil default dari method getKategoriMenu
                 ->label('ID Kategori')
                 ->required()
                 ->placeholder('Masukkan id kategori')
+                ->readonly()
                 ->unique(ignoreRecord: true) //mencegah duplikasi
             ,
             TextInput::make('nama_kategori')
