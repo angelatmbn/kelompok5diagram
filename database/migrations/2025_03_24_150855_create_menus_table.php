@@ -19,6 +19,12 @@ return new class extends Migration
             $table->integer('harga');
             $table->string('foto');
             $table->timestamps();
+
+            $table->foreign('id_kategori')
+                ->references('id_kategori')
+                ->on('kategori_menu')
+                ->onUpdate('cascade') // Update otomatis jika id_kategori berubah
+                ->onDelete('cascade'); // Hapus data jika kategori dihapus
         });
     }
 
