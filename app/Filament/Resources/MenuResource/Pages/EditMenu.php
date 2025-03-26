@@ -20,6 +20,8 @@ class EditMenu extends EditRecord
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
+        $kategori = KategoriMenu::find($data['id_kategori']);
+        $data['nama_kategori'] = $kategori ? $kategori->nama_kategori : null;
 
         // Pastikan harga tetap angka saat diupdate
         $data['harga'] = (int) str_replace('.', '', $data['harga']);

@@ -51,20 +51,20 @@ class MenuResource extends Resource
                     ->directory('foto')
                     ->required(),
 
-                Select::make('nama_kategori')
-                    ->label('Nama Kategori')
-                    ->options(KategoriMenu::all()->pluck('nama_kategori', 'nama_kategori'))
+                    Select::make('id_kategori')
+                    ->label('Id Kategori')
+                    ->options(KategoriMenu::all()->pluck('nama_kategori', 'id_kategori'))
                     ->required()
                     ->reactive()
                     ->afterStateUpdated(fn ($state, callable $set) => 
-                        $set('id_kategori', KategoriMenu::where('nama_kategori', $state)->value('id_kategori'))
-                ),
-                
-                TextInput::make('id_kategori')
-                    ->label('ID Kategori')
+                        $set('nama_kategori', KategoriMenu::find($state)?->nama_kategori)
+                    ),
+
+                TextInput::make('nama_kategori')
+                    ->label('Nama Kategori')
                     ->required()
                     ->disabled()
-                    ->placeholder('ID Kategori akan otomatis terisi'),
+                    ->placeholder('Nama Kategori akan otomatis terisi'),
             ]);
     }
 
