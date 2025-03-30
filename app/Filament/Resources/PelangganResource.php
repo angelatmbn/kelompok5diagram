@@ -48,6 +48,28 @@ class PelangganResource extends Resource
                 TextInput::make('nama')
                 ->label('Nama')
                 ->required(),
+                TextInput::make('alamat')
+                    ->label('Alamat')
+                    ->required(),
+                TextInput::make('telepon')
+                    ->label('Telepon')
+                    ->tel() // Menyesuaikan dengan input nomor telepon
+                    ->required(),
+                TextInput::make('email')
+                    ->label('Email')
+                    ->email() // Validasi email
+                    ->unique() // Memastikan email unik
+                    ->required(),
+                DatePicker::make('tanggal_lahir')
+                    ->label('Tanggal Lahir')
+                    ->required(),
+                Select::make('jenis_kelamin')
+                    ->label('Jenis Kelamin')
+                    ->options([
+                        'laki-laki' => 'Laki-laki',
+                        'perempuan' => 'Perempuan',
+                    ])
+                    ->required(),
             ]);
     }
 
@@ -58,7 +80,21 @@ class PelangganResource extends Resource
                 TextColumn::make('id_pelanggan')
                     ->searchable(),
                 TextColumn::make('nama')
-                    ->searchable()
+                    ->searchable(),
+                TextColumn::make('alamat')
+                    ->label('Alamat')
+                    ->searchable(),
+                TextColumn::make('telepon')
+                    ->label('Telepon')
+                    ->searchable(),
+                TextColumn::make('email')
+                    ->label('Email')
+                    ->searchable(),
+                TextColumn::make('tanggal_lahir')
+                    ->label('Tanggal Lahir')
+                    ->date(),
+                TextColumn::make('jenis_kelamin')
+                    ->label('Jenis Kelamin'),
             ])
             ->filters([
                 //
