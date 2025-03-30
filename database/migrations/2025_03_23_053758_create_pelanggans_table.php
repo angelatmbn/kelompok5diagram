@@ -13,10 +13,15 @@ return new class extends Migration
     {
         Schema::create('pelanggan', function (Blueprint $table) {
             $table->id();
-            $table->string('id_pelanggan');
+            $table->string('id_pelanggan')->unique();
             $table->string('nama');
+            $table->string('alamat');
+            $table->string('telepon')->nullable();
+            $table->string('email')->unique()->nullable();
+            $table->date('tanggal_lahir')->nullable();
+            $table->enum('jenis_kelamin', ['laki-laki', 'perempuan'])->nullable();
             $table->timestamps();
-        });
+        });        
     }
 
     /**
