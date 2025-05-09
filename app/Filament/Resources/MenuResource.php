@@ -79,6 +79,7 @@ class MenuResource extends Resource
                     ->formatStateUsing(fn (string|int|null $state): string => rupiah($state))
                     ->extraAttributes(['class' => 'text-right'])
                     ->sortable(),
+                TextColumn::make('stok'),
                 ImageColumn::make('foto'),
                 TextColumn::make('id_kategori'),
                 TextColumn::make('nama_kategori'),
