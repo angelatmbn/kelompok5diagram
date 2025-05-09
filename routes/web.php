@@ -16,3 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+use App\Http\Controllers\PDFController;
+
+Route::get('/presensi/pdf', [PDFController::class, 'presensiPdf'])
+    ->name('presensi.pdf');
