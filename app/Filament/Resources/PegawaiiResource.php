@@ -1,26 +1,22 @@
 <?php
 
+// Di PegawaiiResource.php
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PegawaiiResource\Pages;
 use App\Filament\Resources\PegawaiiResource\RelationManagers;
 use App\Models\Pegawaii;
+use App\Models\User;  // Import model User jika perlu
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\TextInput;
-// use Filament\Forms\Components\InputMask;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\FileUpload; //untuk tipe file
-
-
-use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\DatePicker;
-
+use Filament\Tables\Columns\TextColumn;
 
 class PegawaiiResource extends Resource
 {
@@ -33,38 +29,31 @@ class PegawaiiResource extends Resource
         return $form
             ->schema([
                 TextInput::make('id_pegawai')
-                ->default(fn () => Pegawaii::getIdPegawai()) 
-                ->label('Id Pegawai')
-                ->required()
-                ->readonly() 
-            ,
-            TextInput::make('nama')
-                ->required()
-                ->placeholder('Masukkan nama pegawai') 
-            ,
-            DatePicker::make('tanggal_lahir')
-                    ->label('Tanggal Lahir')
+                    ->default(fn () => Pegawaii::getIdPegawai()) 
+                    ->label('Id Pegawai')
                     ->required()
-                ,
+                    ->readonly(),
+                TextInput::make('nama')
+                    ->required()
+                    ->placeholder('Masukkan nama pegawai'),
+                DatePicker::make('tanggal_lahir')
+                    ->label('Tanggal Lahir')
+                    ->required(),
                 TextInput::make('alamat')
-                ->label('Alamat')
-                ->required()
-                ,
+                    ->label('Alamat')
+                    ->required(),
                 TextInput::make('no_telp')
-                ->label('Nomor Telp')
-                ->required()
-                ,
-         Select::make('shift')
-      ->label('Shift')
-      ->options([
-        'Siang' => 'Siang',
-        'Malam' => 'Malam',])
-    ->required()
-    ->native(false) // Opsional: Gunakan dropdown yang lebih cantik di UI
-    ->searchable() // Opsional: Jika ingin bisa diketik untuk mencari opsi
-            ,
-   
-
+                    ->label('Nomor Telp')
+                    ->required(),
+                Select::make('shift')
+                    ->label('Shift')
+                    ->options([
+                        'Siang' => 'Siang',
+                        'Malam' => 'Malam',
+                    ])
+                    ->required()
+                    ->native(false)
+                    ->searchable(),
             ]);
     }
 
@@ -73,24 +62,19 @@ class PegawaiiResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id_pegawai')
-                ->searchable(),
-            // agar bisa di search
-            TextColumn::make('nama')
-                ->searchable()
-                ->sortable(),
-            TextColumn::make('tanggal_lahir')
-                ->label('Tanggal Lahir')
-                ->sortable()
-            ,
-            TextColumn::make('alamat')
-                ->searchable()
-                ->sortable(),
+                    ->searchable(),
+                TextColumn::make('nama')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('tanggal_lahir')
+                    ->label('Tanggal Lahir')
+                    ->sortable(),
+                TextColumn::make('alamat')
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('no_telp')
-                ->searchable()
-                ->sortable(),
-            TextColumn::make('shift')
-
-
+                    ->searchable()
+                    ->sortable(),
             ])
             ->filters([
                 //
@@ -100,7 +84,6 @@ class PegawaiiResource extends Resource
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
-
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
@@ -111,7 +94,7 @@ class PegawaiiResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            // Jika ada Relation Manager, bisa ditambahkan di sini
         ];
     }
 
