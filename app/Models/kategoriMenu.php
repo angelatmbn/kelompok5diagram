@@ -7,32 +7,47 @@ use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Support\Facades\DB;
 
-class kategoriMenu extends Model
+class KategoriMenu extends Model
 {
     use HasFactory;
 
     protected $primaryKey = 'id_kategori';
     public $incrementing = false;
-    protected $table = 'kategori_menu'; // Nama tabel eksplisit
+    protected $keyType = 'string';
+    protected $table = 'kategori_menu';
 
     protected $guarded = [];
 
     public static function getKategoriMenu()
     {
-        // query kode perusahaan
-        $sql = "SELECT IFNULL(MAX(id_kategori), 'KAT000') as id_kategori
-                FROM kategori_menu ";
+        $sql = "SELECT IFNULL(MAX(id_kategori), 'KTG000') as id_kategori FROM kategori_menu";
         $idkategori = DB::select($sql);
 
-        // cacah hasilnya
-        foreach ($idkategori as $idkat) {
-            $kd = $idkat->id_kategori;
+        foreach ($idkategori as $idktg) {
+            $id = $idktg->id_kategori;
         }
-        // Mengambil substring tiga digit akhir dari string KAT-000
-        $noawal = substr($kd,-3);
-        $noakhir = intval($noawal) +1; //menambahkan 1, hasilnya adalah integer cth 1
-        $noakhir = 'KAT'.str_pad($noakhir,3,"0",STR_PAD_LEFT); //menyambung dengan string KAT-001
-        return $noakhir;
 
+        $noawal = substr($id, -3);
+        $noakhir = 'KTG' . str_pad($noawal + 1, 3, "0", STR_PAD_LEFT);
+        return $noakhir;
+    }
+
+    public function menu()
+    {
+        return $this->hasMany(Menu::class, 'id_kategori', 'id_kategori');
+    }
+
+    public function setHargaMenuAttribute($value)
+    {
+        $this->attributes['harga'] = str_replace('.', '', $value);
+    }
+    public function detailPenjualan()
+    {
+        return $this->hasMany(DetailPenjualan::class);
+    }
+
+    public function kategori()
+    {
+        return $this->belongsTo(KategoriMenu::class, 'id_kategori', 'id_kategori');
     }
 }

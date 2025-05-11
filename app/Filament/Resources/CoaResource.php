@@ -57,7 +57,11 @@ class coaResource extends Resource
                 TextColumn::make('nama_akun')
                     ->sortable()
                     ->searchable()
+<<<<<<< HEAD
                 , 
+=======
+                ,
+>>>>>>> 3f58c50 (menyelesaikan desain database, struktur migrasi serta trigger transaksi penjualan)
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('header_akun')

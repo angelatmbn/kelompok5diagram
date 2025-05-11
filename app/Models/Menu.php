@@ -19,7 +19,7 @@ class Menu extends Model
     public static function getIdMenu()
     {
         // query kode perusahaan
-        $sql = "SELECT IFNULL(MAX(id_menu), 'MN000') as id_menu 
+        $sql = "SELECT IFNULL(MAX(id_menu), 'MN000') as id_menu
                 FROM menu ";
         $idmenu = DB::select($sql);
 
@@ -46,4 +46,17 @@ class Menu extends Model
     //{
     //    return $this->belongsTo(kategoriMenu::class, 'id_kategori', 'id_kategori');
     //}
+    public function setHargaMenuAttribute($value)
+    {
+        $this->attributes['harga'] = str_replace('.', '', $value);
+    }
+    public function detailPenjualan()
+    {
+        return $this->hasMany(DetailPenjualan::class);
+    }
+
+    public function kategori()
+    {
+        return $this->belongsTo(KategoriMenu::class, 'id_kategori', 'id_kategori');
+    }
 }

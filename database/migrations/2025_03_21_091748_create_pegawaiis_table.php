@@ -1,34 +1,31 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+namespace App\Models;
 
-return new class extends Migration
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+
+class Pegawaii extends Model
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
-    {
-        Schema::create('pegawaii', function (Blueprint $table) {
-            $table->id();
-            $table->string('id_pegawai');
-            $table->string('nama');
-            $table->date('tanggal_lahir');
-            $table->text('alamat');
-            $table->string('no_telp');
-            $table->string('shift');
-            $table->integer('gaji_pokok');
-            $table->timestamps();
-        });
-    }
+    protected $table = 'pegawaii'; // Nama tabel eksplisit
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    protected $guarded = [];
+    public static function getIdPegawai()
     {
-        Schema::dropIfExists('pegawaii');
+        // query kode perusahaan
+        $sql = "SELECT IFNULL(MAX(id_pegawai), 'PGW000') as id_pegawai
+                FROM pegawaii ";
+        $idpegawai = DB::select($sql);
+
+        // cacah hasilnya
+        foreach ($idpegawai as $idpgw) {
+            $id = $idpgw->id_pegawai;
+        }
+        // Mengambil substring tiga digit akhir dari string PR-000
+        $noawal = substr($id,-3);
+        $noakhir = $noawal+1; //menambahkan 1, hasilnya adalah integer cth 1
+        $noakhir = 'PGW-'.str_pad($noakhir,3,"0",STR_PAD_LEFT); //menyambung dengan string PR-001
+        return $noakhir;
+
     }
-};
+}

@@ -45,6 +45,16 @@ class KategoriMenuResource extends Resource
                 ->required()
                 ->placeholder('Masukkan nama kategori')
             ,
+            FileUpload::make('gambar')
+            ->directory('gambar')
+            ->required()
+            ,
+            TextInput::make('deskripsi')
+                ->autocapitalize('words')
+                ->label('deskripsi kategori')
+                ->required()
+                ->placeholder('Masukkan deskripsi dari kategori tersebut')
+            ,
         ]);
     }
 
@@ -57,6 +67,10 @@ class KategoriMenuResource extends Resource
                 TextColumn::make('nama_kategori')
                     ->searchable()
                     ->sortable(),
+                ImageColumn::make('gambar'),
+                TextColumn::make('deskripsi')
+                    ->label('Deskripsi')
+                    ->searchable(),
             ])
             ->filters([
 

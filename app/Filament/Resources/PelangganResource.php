@@ -26,18 +26,33 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+<<<<<<< HEAD
+=======
+// untuk model ke user
+use App\Models\User;
+>>>>>>> 3f58c50 (menyelesaikan desain database, struktur migrasi serta trigger transaksi penjualan)
 
 class PelangganResource extends Resource
 {
     protected static ?string $model = Pelanggan::class;
 
+<<<<<<< HEAD
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+=======
+    protected static ?string $navigationIcon = 'heroicon-o-face-smile';
+    // merubah nama label menjadi Pembeli
+    protected static ?string $navigationLabel = 'Pelanggan';
+
+    // tambahan buat grup masterdata
+    protected static ?string $navigationGroup = 'Masterdata';
+>>>>>>> 3f58c50 (menyelesaikan desain database, struktur migrasi serta trigger transaksi penjualan)
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 TextInput::make('id')
+<<<<<<< HEAD
                 ->label('ID')
                 ->disabled(),
                 TextInput::make('id_pelanggan')
@@ -71,6 +86,41 @@ class PelangganResource extends Resource
                     ])
                     ->required(),
             ]);
+=======
+                    ->label('ID')
+                    ->disabled(),
+                    TextInput::make('id_pelanggan')
+                    ->default(fn () => Pelanggan::getCustomerID()) // Ambil default dari method getKodeBarang
+                    ->label('Id Pelanggan')
+                    ->required()
+                    ->readonly(),
+                    TextInput::make('nama')
+                    ->label('Nama')
+                    ->required(),
+                    TextInput::make('alamat')
+                        ->label('Alamat')
+                        ->required(),
+                    TextInput::make('telepon')
+                        ->label('Telepon')
+                        ->tel() // Menyesuaikan dengan input nomor telepon
+                        ->required(),
+                    TextInput::make('email')
+                        ->label('Email')
+                        ->email() // Validasi email
+                        ->unique() // Memastikan email unik
+                        ->required(),
+                    DatePicker::make('tanggal_lahir')
+                        ->label('Tanggal Lahir')
+                        ->required(),
+                    Select::make('jenis_kelamin')
+                        ->label('Jenis Kelamin')
+                        ->options([
+                            'laki-laki' => 'Laki-laki',
+                            'perempuan' => 'Perempuan',
+                        ])
+                        ->required(),
+                ]);
+>>>>>>> 3f58c50 (menyelesaikan desain database, struktur migrasi serta trigger transaksi penjualan)
     }
 
     public static function table(Table $table): Table

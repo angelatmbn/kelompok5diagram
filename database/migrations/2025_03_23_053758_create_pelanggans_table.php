@@ -21,7 +21,11 @@ return new class extends Migration
             $table->date('tanggal_lahir')->nullable();
             $table->enum('jenis_kelamin', ['laki-laki', 'perempuan'])->nullable();
             $table->timestamps();
+<<<<<<< HEAD
         });        
+=======
+        });
+>>>>>>> 3f58c50 (menyelesaikan desain database, struktur migrasi serta trigger transaksi penjualan)
     }
 
     /**
