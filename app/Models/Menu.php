@@ -4,37 +4,30 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
 use Illuminate\Support\Facades\DB;
 
-class KategoriMenu extends Model
+class Menu extends Model
 {
     use HasFactory;
-
-    protected $primaryKey = 'id_kategori';
+    protected $primaryKey = 'id_menu';
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $table = 'kategori_menu';
+    protected $table = 'menu';
 
     protected $guarded = [];
 
-    public static function getKategoriMenu()
+    public static function getIdMenu()
     {
-        $sql = "SELECT IFNULL(MAX(id_kategori), 'KTG000') as id_kategori FROM kategori_menu";
-        $idkategori = DB::select($sql);
+        $sql = "SELECT IFNULL(MAX(id_menu), 'MN000') as id_menu FROM menu";
+        $idmenu = DB::select($sql);
 
-        foreach ($idkategori as $idktg) {
-            $id = $idktg->id_kategori;
+        foreach ($idmenu as $idmn) {
+            $id = $idmn->id_menu;
         }
 
         $noawal = substr($id, -3);
-        $noakhir = 'KTG' . str_pad($noawal + 1, 3, "0", STR_PAD_LEFT);
+        $noakhir = 'MN' . str_pad($noawal + 1, 3, "0", STR_PAD_LEFT);
         return $noakhir;
-    }
-
-    public function menu()
-    {
-        return $this->hasMany(Menu::class, 'id_kategori', 'id_kategori');
     }
 
     public function setHargaMenuAttribute($value)

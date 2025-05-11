@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kategori_menu', function (Blueprint $table) {
-            $table->string('id_kategori')->primary(); // string manual seperti 'KTG001'
-            $table->string('nama_kategori')->unique();
-            $table->string('gambar')->nullable();
-            $table->string('deskripsi')->nullable();
+        Schema::create('coa', function (Blueprint $table) {
+            $table->id();
+            $table->integer('header_akun');
+            $table->string('kode_akun',10);
+            $table->string('nama_akun');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kategori_menu');
+        Schema::dropIfExists('coa');
     }
 };
