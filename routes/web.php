@@ -1,50 +1,21 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+// =====================
+// View Default & Login
+// =====================
 
 Route::get('/', function () {
-    return view('welcome');
-});
-<<<<<<< HEAD
-use App\Http\Controllers\PDFController;
-
-Route::get('/presensi/pdf', [PDFController::class, 'presensiPdf'])
-    ->name('presensi.pdf');
-=======
-
-Route::get('/selamat', function () {
-    return view('Selamat',['nama' => 'Joko Susilo']);
+    return view('login'); // default diarahkan ke login customer
 });
 
-Route::get('/nama', function () {
-    return view('nama',['nama' => 'Joko Susilo']);
-});
-
-Route::get('/tes', [App\Http\Controllers\ContohController::class, 'tes']);
-
-Route::resource('coa',App\Http\Controllers\CoaController::class);
-// untuk contoh perusahaan
-use App\Http\Controllers\PerusahaanController;
-Route::resource('perusahaan', PerusahaanController::class);
-Route::get('/perusahaan/destroy/{id}', [PerusahaanController::class,'destroy']);
-
-Route::get('/', function () {
-    // return view('welcome');
-    // diarahkan ke login customer
-    return view('login');
-});
-
-
-// login customer
-Route::get('/depan', [App\Http\Controllers\KeranjangController::class, 'daftarmenu'])
-     ->middleware(\App\Http\Middleware\CustomerMiddleware::class)
-     ->name('depan');
 Route::get('/login', function () {
     return view('login');
-});
+})->name('login');
 
-// tambahan route untuk proses login
-use Illuminate\Http\Request;
 Route::post('/login', [App\Http\Controllers\AuthController::class, 'login']);
 
 Route::get('/logout', function () {
@@ -54,23 +25,58 @@ Route::get('/logout', function () {
     return redirect('/login');
 })->name('logout');
 
-// untuk ubah password
-Route::get('/ubahpassword', [App\Http\Controllers\AuthController::class, 'ubahpassword'])
-    ->middleware(\App\Http\Middleware\CustomerMiddleware::class)
-    ->name('ubahpassword');
-Route::post('/prosesubahpassword', [App\Http\Controllers\AuthController::class, 'prosesubahpassword'])
-    ->middleware(\App\Http\Middleware\CustomerMiddleware::class)
-;
-// prosesubahpassword
-// tambah keranjang
-Route::post('/tambah', [App\Http\Controllers\KeranjangController::class, 'tambahKeranjang'])->middleware(\App\Http\Middleware\CustomerMiddleware::class);
-Route::get('/lihatkeranjang', [App\Http\Controllers\KeranjangController::class, 'lihatkeranjang'])->middleware(\App\Http\Middleware\CustomerMiddleware::class);
-Route::delete('/hapus/{menu_id}', [App\Http\Controllers\KeranjangController::class, 'hapus'])->middleware(\App\Http\Middleware\CustomerMiddleware::class);
-Route::get('/lihatriwayat', [App\Http\Controllers\KeranjangController::class, 'lihatriwayat'])->middleware(\App\Http\Middleware\CustomerMiddleware::class);
-// untuk autorefresh
-Route::get('/cek_status_pembayaran_pg', [App\Http\Controllers\KeranjangController::class, 'cek_status_pembayaran_pg']);
-Route::get('/login', function () {
-    return view('login');
+// =====================
+// View Tes dan Nama
+// =====================
+
+Route::get('/selamat', function () {
+    return view('Selamat', ['nama' => 'Joko Susilo']);
 });
 
->>>>>>> 3f58c50 (menyelesaikan desain database, struktur migrasi serta trigger transaksi penjualan)
+Route::get('/nama', function () {
+    return view('nama', ['nama' => 'Joko Susilo']);
+});
+
+Route::get('/tes', [App\Http\Controllers\ContohController::class, 'tes']);
+
+// =====================
+// PDF Presensi
+// =====================
+
+use App\Http\Controllers\PDFController;
+Route::get('/presensi/pdf', [PDFController::class, 'presensiPdf'])->name('presensi.pdf');
+
+// =====================
+// Resource Routes
+// =====================
+
+Route::resource('coa', App\Http\Controllers\CoaController::class);
+
+use App\Http\Controllers\PerusahaanController;
+Route::resource('perusahaan', PerusahaanController::class);
+Route::get('/perusahaan/destroy/{id}', [PerusahaanController::class, 'destroy']);
+
+// =====================
+// Customer Area (with Middleware)
+// =====================
+
+use App\Http\Middleware\CustomerMiddleware;
+use App\Http\Controllers\KeranjangController;
+use App\Http\Controllers\AuthController;
+
+Route::middleware([CustomerMiddleware::class])->group(function () {
+    Route::get('/depan', [KeranjangController::class, 'daftarmenu'])->name('depan');
+    Route::get('/ubahpassword', [AuthController::class, 'ubahpassword'])->name('ubahpassword');
+    Route::post('/prosesubahpassword', [AuthController::class, 'prosesubahpassword']);
+
+    Route::post('/tambah', [KeranjangController::class, 'tambahKeranjang']);
+    Route::get('/lihatkeranjang', [KeranjangController::class, 'lihatkeranjang']);
+    Route::delete('/hapus/{menu_id}', [KeranjangController::class, 'hapus']);
+    Route::get('/lihatriwayat', [KeranjangController::class, 'lihatriwayat']);
+});
+
+// =====================
+// Autorefresh / Cek Status
+// =====================
+
+Route::get('/cek_status_pembayaran_pg', [KeranjangController::class, 'cek_status_pembayaran_pg']);

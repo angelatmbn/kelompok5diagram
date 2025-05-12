@@ -2,152 +2,86 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\Radio;
-
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\BadgeColumn;
-use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Columns\IconColumn;
-
 use App\Filament\Resources\PelangganResource\Pages;
-use App\Filament\Resources\PelangganResource\RelationManagers;
 use App\Models\Pelanggan;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-<<<<<<< HEAD
-=======
-// untuk model ke user
-use App\Models\User;
->>>>>>> 3f58c50 (menyelesaikan desain database, struktur migrasi serta trigger transaksi penjualan)
+use Filament\Tables\Columns\TextColumn;
 
 class PelangganResource extends Resource
 {
     protected static ?string $model = Pelanggan::class;
 
-<<<<<<< HEAD
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-=======
     protected static ?string $navigationIcon = 'heroicon-o-face-smile';
-    // merubah nama label menjadi Pembeli
+    // merubah nama label menjadi Pelanggan
     protected static ?string $navigationLabel = 'Pelanggan';
 
     // tambahan buat grup masterdata
     protected static ?string $navigationGroup = 'Masterdata';
->>>>>>> 3f58c50 (menyelesaikan desain database, struktur migrasi serta trigger transaksi penjualan)
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                TextInput::make('id')
-<<<<<<< HEAD
+        return $form->schema([
+            TextInput::make('id')
                 ->label('ID')
                 ->disabled(),
-                TextInput::make('id_pelanggan')
-                ->default(fn () => Pelanggan::getCustomerID()) // Ambil default dari method getKodeBarang
+
+            TextInput::make('id_pelanggan')
+                ->default(fn () => Pelanggan::getCustomerID())
                 ->label('Id Pelanggan')
-                ->required()
-                ->readonly(),
-                TextInput::make('nama')
+                ->readonly()
+                ->required(),
+
+            TextInput::make('nama')
                 ->label('Nama')
                 ->required(),
-                TextInput::make('alamat')
-                    ->label('Alamat')
-                    ->required(),
-                TextInput::make('telepon')
-                    ->label('Telepon')
-                    ->tel() // Menyesuaikan dengan input nomor telepon
-                    ->required(),
-                TextInput::make('email')
-                    ->label('Email')
-                    ->email() // Validasi email
-                    ->unique() // Memastikan email unik
-                    ->required(),
-                DatePicker::make('tanggal_lahir')
-                    ->label('Tanggal Lahir')
-                    ->required(),
-                Select::make('jenis_kelamin')
-                    ->label('Jenis Kelamin')
-                    ->options([
-                        'laki-laki' => 'Laki-laki',
-                        'perempuan' => 'Perempuan',
-                    ])
-                    ->required(),
-            ]);
-=======
-                    ->label('ID')
-                    ->disabled(),
-                    TextInput::make('id_pelanggan')
-                    ->default(fn () => Pelanggan::getCustomerID()) // Ambil default dari method getKodeBarang
-                    ->label('Id Pelanggan')
-                    ->required()
-                    ->readonly(),
-                    TextInput::make('nama')
-                    ->label('Nama')
-                    ->required(),
-                    TextInput::make('alamat')
-                        ->label('Alamat')
-                        ->required(),
-                    TextInput::make('telepon')
-                        ->label('Telepon')
-                        ->tel() // Menyesuaikan dengan input nomor telepon
-                        ->required(),
-                    TextInput::make('email')
-                        ->label('Email')
-                        ->email() // Validasi email
-                        ->unique() // Memastikan email unik
-                        ->required(),
-                    DatePicker::make('tanggal_lahir')
-                        ->label('Tanggal Lahir')
-                        ->required(),
-                    Select::make('jenis_kelamin')
-                        ->label('Jenis Kelamin')
-                        ->options([
-                            'laki-laki' => 'Laki-laki',
-                            'perempuan' => 'Perempuan',
-                        ])
-                        ->required(),
-                ]);
->>>>>>> 3f58c50 (menyelesaikan desain database, struktur migrasi serta trigger transaksi penjualan)
+
+            TextInput::make('alamat')
+                ->label('Alamat')
+                ->required(),
+
+            TextInput::make('telepon')
+                ->label('Telepon')
+                ->tel()
+                ->required(),
+
+            TextInput::make('email')
+                ->label('Email')
+                ->email()
+                ->unique(ignoreRecord: true) // agar tidak error saat edit
+                ->required(),
+
+            DatePicker::make('tanggal_lahir')
+                ->label('Tanggal Lahir')
+                ->required(),
+
+            Select::make('jenis_kelamin')
+                ->label('Jenis Kelamin')
+                ->options([
+                    'laki-laki' => 'Laki-laki',
+                    'perempuan' => 'Perempuan',
+                ])
+                ->required(),
+        ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('id_pelanggan')
-                    ->searchable(),
-                TextColumn::make('nama')
-                    ->searchable(),
-                TextColumn::make('alamat')
-                    ->label('Alamat')
-                    ->searchable(),
-                TextColumn::make('telepon')
-                    ->label('Telepon')
-                    ->searchable(),
-                TextColumn::make('email')
-                    ->label('Email')
-                    ->searchable(),
-                TextColumn::make('tanggal_lahir')
-                    ->label('Tanggal Lahir')
-                    ->date(),
-                TextColumn::make('jenis_kelamin')
-                    ->label('Jenis Kelamin'),
-            ])
-            ->filters([
-                //
+                TextColumn::make('id_pelanggan')->searchable(),
+                TextColumn::make('nama')->searchable(),
+                TextColumn::make('alamat')->label('Alamat')->searchable(),
+                TextColumn::make('telepon')->label('Telepon')->searchable(),
+                TextColumn::make('email')->label('Email')->searchable(),
+                TextColumn::make('tanggal_lahir')->label('Tanggal Lahir')->date(),
+                TextColumn::make('jenis_kelamin')->label('Jenis Kelamin'),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
@@ -163,9 +97,7 @@ class PelangganResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array
