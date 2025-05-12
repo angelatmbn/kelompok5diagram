@@ -54,6 +54,12 @@ class PegawaiiResource extends Resource
                     ->required()
                     ->native(false)
                     ->searchable(),
+                TextInput::make('gaji_pokok')
+                    ->label('Gaji Pokok')
+                    ->required()
+                    ->afterStateUpdated(fn ($state, callable $set) => 
+                        $set('harga', number_format((float) preg_replace('/[^0-9]/', '', $state), 0, ',', '.'))
+                    ),
             ]);
     }
 
@@ -75,6 +81,13 @@ class PegawaiiResource extends Resource
                 TextColumn::make('no_telp')
                     ->searchable()
                     ->sortable(),
+                TextColumn::make('shift')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('gaji_pokok')
+                    ->searchable()
+                    ->sortable()
+                    ->formatStateUsing(fn (string|int|null $state): string => rupiah($state)),
             ])
             ->filters([
                 //

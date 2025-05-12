@@ -11,15 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pegawaii', function (Blueprint $table) {
+        Schema::create('failed_import_rows', function (Blueprint $table) {
             $table->id();
-            $table->string('id_pegawai');
-            $table->string('nama');
-            $table->date('tanggal_lahir');
-            $table->text('alamat');
-            $table->string('no_telp');
-            $table->string('shift');
-            $table->integer('gaji_pokok');
+            $table->json('data');
+            $table->foreignId('import_id')->constrained()->cascadeOnDelete();
+            $table->text('validation_error')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pegawaii');
+        Schema::dropIfExists('failed_import_rows');
     }
 };

@@ -28,6 +28,12 @@ class Presensi extends Model
         return $this->belongsTo(Pegawaii::class, 'id_pegawai');
     }
 
+    // Menyatakan relasi dengan model Penggajian (bisa diubah jika diperlukan)
+    public function penggajian()
+    {
+        return $this->hasMany(Penggajian::class, 'id_pegawai');
+    }
+
     // Jika tidak ingin menggunakan timestamps 'created_at' dan 'updated_at', set ke false
     public $timestamps = true;
 }
