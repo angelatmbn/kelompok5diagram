@@ -21,23 +21,32 @@ class AuthController extends Controller
 
     // proses validasi data login
     public function login(Request $request)
-    {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|min:6',
-        ]);
+{
+    $credentials = $request->validate([
+        'email' => 'required|email',
+        'password' => 'required|min:6',
+    ]);
 
-        // if (Auth::attempt($credentials)) {
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'user_group' => 'customer'])) {
-            $request->session()->regenerate();
-            return redirect()->intended('/depan');
+    if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        $request->session()->regenerate();
+
+        $user = Auth::user();
+
+        if ($user->user_group === 'admin') {
+            return redirect('/admin'); // halaman admin
+        } elseif ($user->user_group === 'customer') {
+            return redirect('/depan'); // halaman customer
+        } else {
+            Auth::logout(); // kalau user_group tidak dikenal
+            return redirect('/login')->withErrors(['user_group' => 'Role tidak dikenal.']);
         }
-
-        return back()->withErrors([
-            'email' => 'Email atau password salah.',
-            'user_group' => 'User Grup tidak berhak mengakses',
-        ]);
     }
+
+    return back()->withErrors([
+        'email' => 'Email atau password salah.',
+    ]);
+}
+
 
     // method untuk menangani logout
     public function logout(Request $request)
