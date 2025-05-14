@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\MenuResource\Pages;
 use App\Models\Menu;
-use App\Models\KategoriMenu; // Ensure this is imported
+use App\Models\KategoriMenu;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -38,33 +38,38 @@ class MenuResource extends Resource
 
                 TextInput::make('harga')
                     ->required()
-                    ->numeric() // Pastikan input hanya menerima angka
+                    ->numeric()
                     ->reactive()
                     ->extraAttributes(['id' => 'harga'])
                     ->placeholder('Masukkan harga menu')
                     ->live()
-                    ->afterStateUpdated(fn ($state, callable $set) => 
-                        $set('harga', number_format((float) preg_replace('/[^0-9]/', '', $state), 0, ',', '.'))
-                    ),
+                    ->afterStateUpdated(function ($state, callable $set) {
+                        $set('harga', number_format((float) preg_replace('/[^0-9]/', '', $state), 0, ',', '.'));
+                    }),
 
                 FileUpload::make('foto')
                     ->directory('foto')
                     ->required(),
 
-                    Select::make('id_kategori')
+                Select::make('id_kategori')
                     ->label('Id Kategori')
                     ->options(KategoriMenu::all()->pluck('nama_kategori', 'id_kategori'))
                     ->required()
                     ->reactive()
-                    ->afterStateUpdated(fn ($state, callable $set) => 
-                        $set('nama_kategori', KategoriMenu::find($state)?->nama_kategori)
-                    ),
+                    ->afterStateUpdated(function ($state, callable $set) {
+                        $set('nama_kategori', KategoriMenu::find($state)?->nama_kategori);
+                    }),
 
                 TextInput::make('nama_kategori')
                     ->label('Nama Kategori')
                     ->required()
                     ->disabled()
                     ->placeholder('Nama Kategori akan otomatis terisi'),
+
+                TextInput::make('stok')
+                    ->required()
+                    ->placeholder('Masukkan stok barang')
+                    ->minValue(0),
             ]);
     }
 
@@ -79,6 +84,7 @@ class MenuResource extends Resource
                     ->formatStateUsing(fn (string|int|null $state): string => rupiah($state))
                     ->extraAttributes(['class' => 'text-right'])
                     ->sortable(),
+                TextColumn::make('stok'),
                 ImageColumn::make('foto'),
                 TextColumn::make('id_kategori'),
                 TextColumn::make('nama_kategori'),
@@ -100,9 +106,7 @@ class MenuResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array

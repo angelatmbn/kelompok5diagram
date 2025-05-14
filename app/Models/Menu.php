@@ -9,41 +9,32 @@ use Illuminate\Support\Facades\DB;
 class Menu extends Model
 {
     use HasFactory;
-    protected $primaryKey = 'id_menu'; // Pastikan ini sesuai dengan database
-    public $incrementing = false; // Jika id_menu bukan auto-increment
-    protected $keyType = 'string'; // Jika id_menu adalah string
-    protected $table = 'menu'; // Nama tabel eksplisit
 
+    protected $primaryKey = 'id_menu';
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $table = 'menu';
     protected $guarded = [];
 
     public static function getIdMenu()
     {
-        // query kode perusahaan
-        $sql = "SELECT IFNULL(MAX(id_menu), 'MN000') as id_menu 
-                FROM menu ";
-        $idmenu = DB::select($sql);
-
-        // cacah hasilnya
-        foreach ($idmenu as $idmn) {
-            $id = $idmn->id_menu;
-        }
-        // Mengambil substring tiga digit akhir dari string PR-000
-        $noawal = substr($id,-3);
-        $noakhir = $noawal+1; //menambahkan 1, hasilnya adalah integer cth 1
-        $noakhir = 'MN'.str_pad($noakhir,3,"0",STR_PAD_LEFT); //menyambung dengan string PR-001
-        return $noakhir;
-
+        $id = DB::table('menu')->max('id_menu') ?? 'MN000';
+        $noUrut = (int) substr($id, -3) + 1;
+        return 'MN' . str_pad($noUrut, 3, '0', STR_PAD_LEFT);
     }
 
-    // Dengan mutator ini, setiap kali data harga_barang dikirim ke database, koma akan otomatis dihapus.
-    public function setHargaMenuAttribute($value)
+    public function setHargaAttribute($value)
     {
-        // Hapus koma (,) dari nilai sebelum menyimpannya ke database
         $this->attributes['harga'] = str_replace('.', '', $value);
     }
 
-    //public function kategori()
-    //{
-    //    return $this->belongsTo(kategoriMenu::class, 'id_kategori', 'id_kategori');
-    //}
+    public function detailPenjualan()
+    {
+        return $this->hasMany(DetailPenjualan::class);
+    }
+
+    public function kategori()
+    {
+        return $this->belongsTo(KategoriMenu::class, 'id_kategori', 'id_kategori');
+    }
 }
