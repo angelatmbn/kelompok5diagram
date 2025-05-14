@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('pembayaran', function (Blueprint $table) {
             $table->id();
-            $table->integer('penjualan_id');
             $table->date('tgl_bayar');
             $table->string('jenis_pembayaran');
             $table->dateTime('transaction_time')->nullable();

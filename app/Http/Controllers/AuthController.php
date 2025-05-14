@@ -28,15 +28,19 @@ class AuthController extends Controller
         ]);
 
         // if (Auth::attempt($credentials)) {
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'user_group' => 'customer'])) {
-            $request->session()->regenerate();
-            return redirect()->intended('/depan');
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return back()->withErrors(['email' => 'Email atau password salah.']);
         }
 
-        return back()->withErrors([
-            'email' => 'Email atau password salah.',
-            'user_group' => 'User Grup tidak berhak mengakses',
-        ]);
+        if ($user->user_group !== 'customer') {
+            return back()->withErrors(['email' => 'Akses hanya untuk customer.']);
+        }
+
+        Auth::login($user);
+        $request->session()->regenerate();
+        return redirect()->intended('/depan');
     }
 
     // method untuk menangani logout
@@ -49,12 +53,14 @@ class AuthController extends Controller
     }
 
     // ubah password
-    public function ubahpassword(){
+    public function ubahpassword()
+    {
         return view('ubahpassword');
     }
 
     // ubah password
-    public function prosesubahpassword(Request $request){
+    public function prosesubahpassword(Request $request)
+    {
         // echo $request->password ;
         $request->validate([
             'password' => 'required|string|min:5',
