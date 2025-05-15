@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('pelanggan', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete(); //jika parent di hapus, maka anak akan ikut terhapus
             $table->string('id_pelanggan')->unique();
-            $table->string('nama');
+            $table->string('nama_pelanggan');
             $table->string('alamat');
             $table->string('telepon')->nullable();
             $table->string('email')->unique()->nullable();

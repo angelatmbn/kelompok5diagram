@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('no_faktur')->unique();
             $table->enum('status', ['pesan', 'bayar'])->default('pesan');
             $table->dateTime('tgl');
-            $table->decimal('total_tagihan', 15, 2)->nullable();
+            $table->decimal('tagihan', 15, 2)->nullable();
             $table->timestamps();
         });
     }

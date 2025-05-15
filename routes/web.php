@@ -67,3 +67,4 @@ Route::get('/login', function () {
     return view('login');
 });
 
+Route::get('/get-harga/{id}', [App\Http\Controllers\MenuController::class, 'getHarga']);

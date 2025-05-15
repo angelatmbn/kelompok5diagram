@@ -13,11 +13,10 @@ return new class extends Migration
     {
         Schema::create('pembayaran', function (Blueprint $table) {
             $table->id();
-            $table->integer('penjualan_id');
             $table->date('tgl_bayar');
             $table->string('jenis_pembayaran');
             $table->dateTime('transaction_time')->nullable();
-            $table->decimal('gross_amount',10,2);
+            $table->decimal('gross_amount', 10, 2);
             $table->string('order_id')->nullable();
             $table->string('payment_type')->nullable();
             $table->string('status_code')->nullable();
@@ -28,7 +27,6 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreignId('penjualan_id')->constrained('penjualan')->onDelete('cascade');
-
         });
     }
 

@@ -13,6 +13,6 @@ class StokLog extends Model
 
     public function menu()
     {
-        return $this->belongsTo(Menu::class);
+        return $this->belongsTo(Menu::class, 'menu_id', 'id_menu');
     }
 }
