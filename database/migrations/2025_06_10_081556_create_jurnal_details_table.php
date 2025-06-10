@@ -11,8 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('jurnal_details', function (Blueprint $table) {
+        Schema::create('jurnal_detail', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('jurnal_id')->constrained('jurnal')->cascadeOnDelete();
+            $table->foreignId('coa_id')->constrained('coa')->cascadeOnDelete();
+            $table->string('deskripsi')->nullable();
+            $table->decimal('debit',15,2)->default(0);
+            $table->decimal('credit',15,2)->default(0);
             $table->timestamps();
         });
     }
@@ -22,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('jurnal_details');
+        Schema::dropIfExists('jurnal_detail');
     }
 };
