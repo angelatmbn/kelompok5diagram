@@ -42,6 +42,10 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 \App\Filament\Widgets\DashboardStatCards::class,
+                \App\Filament\Widgets\PresensiPerBulanChart::class,
+                \App\Filament\Widgets\TotalPerPresensi::class,
+                \App\Filament\Widgets\TotalPresensiPegawaiChart::class,
+                \App\Filament\Widgets\TotalPenjualanPerPelangganChart::class,
             ])
             ->middleware([
                 EncryptCookies::class,
