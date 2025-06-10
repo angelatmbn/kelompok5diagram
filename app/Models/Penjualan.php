@@ -5,6 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+// untuk tambahan db
+use Illuminate\Support\Facades\DB;
+
+/**
+ * @property int $id
+ * @property int $pelanggan_id
+ * @property string $no_faktur
+ * @property string $status
+ * @property string $tgl
+ * @property string $total_tagihan
+ */
 class Penjualan extends Model
 {
     use HasFactory;
@@ -12,10 +23,29 @@ class Penjualan extends Model
 
     protected $guarded = [];
 
-    // relasi ke tabel detail penjualan
-    public function detailPenjualans()
+    public static function getKodeFaktur()
     {
-        return $this->hasMany(DetailPenjualan::class);
+        // query kode perusahaan
+        $sql = "SELECT IFNULL(MAX(no_faktur), 'F-0000000') as no_faktur
+                FROM penjualan ";
+        $kodefaktur = DB::select($sql);
+
+        // cacah hasilnya
+        foreach ($kodefaktur as $kdpmbl) {
+            $kd = $kdpmbl->no_faktur;
+        }
+        // Mengambil substring tiga digit akhir dari string PR-000
+        $noawal = substr($kd, -7);
+        $noakhir = $noawal + 1; //menambahkan 1, hasilnya adalah integer cth 1
+        $noakhir = 'F-' . str_pad($noakhir, 7, "0", STR_PAD_LEFT); //menyambung dengan string P-00001
+        return $noakhir;
+
+    }
+
+    // relasi ke tabel detail penjualan
+    public function detailPenjualan()
+    {
+        return $this->hasMany(DetailPenjualan::class,'penjualan_id');
     }
 
     // relasi ke tabel pelanggan
@@ -24,9 +54,8 @@ class Penjualan extends Model
         return $this->belongsTo(Pelanggan::class, 'pelanggan_id');
     }
 
-    //relasi ke tabel pembayaran
-    public function pembayaran()
+    public function pembayarans()
     {
-        return $this->hasOne(Pembayaran::class);
+        return $this->hasMany(\App\Models\Pembayaran::class, 'penjualan_id');
     }
 }

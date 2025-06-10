@@ -80,3 +80,4 @@ Route::middleware([CustomerMiddleware::class])->group(function () {
 // =====================
 
 Route::get('/cek_status_pembayaran_pg', [KeranjangController::class, 'cek_status_pembayaran_pg']);
+Route::post('/keranjang/tambah', [KeranjangController::class, 'tambahKeKeranjang']);
