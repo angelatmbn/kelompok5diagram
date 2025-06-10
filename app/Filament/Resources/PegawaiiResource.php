@@ -69,6 +69,29 @@ class PegawaiiResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('id_pegawai')
+                ->searchable(),
+            // agar bisa di search
+            TextColumn::make('nama')
+                ->searchable()
+                ->sortable(),
+            TextColumn::make('tanggal_lahir')
+                ->label('Tanggal Lahir')
+                ->sortable()
+            ,
+            TextColumn::make('alamat')
+                ->searchable()
+                ->sortable(),
+                TextColumn::make('no_telp')
+                ->searchable()
+                ->sortable(),
+            TextColumn::make('shift') // Perubahan disini
+            ->label('Shift')
+
+
+            ])
+            ->filters([
+                //
                 TextColumn::make('id_pegawai')->searchable(),
                 TextColumn::make('nama')->searchable()->sortable(),
                 TextColumn::make('tanggal_lahir')->label('Tanggal Lahir')->sortable(),
