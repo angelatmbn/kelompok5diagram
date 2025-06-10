@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PelangganResource\Pages;
 use App\Models\Pelanggan;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Components\TextInput;
@@ -27,7 +28,24 @@ class PelangganResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form->schema([
+        return $form
+        ->schema([
+            Select::make('user_id')
+                ->label('User')
+                ->relationship('user', 'email')
+                ->searchable()
+                ->preload()
+                ->required()
+                ->live()
+                ->afterStateUpdated(function ($state, callable $set) {
+                    if ($state) {
+                        $user = User::find($state);
+                        if ($user) {
+                            $set('nama', $user->name);
+                        }
+                    }
+                }),
+                
             TextInput::make('id')
                 ->label('ID')
                 ->disabled(),

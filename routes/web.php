@@ -9,12 +9,8 @@ use Illuminate\Support\Facades\Auth;
 // =====================
 
 Route::get('/', function () {
-    return view('login'); // default diarahkan ke login customer
+    return view('/login'); // default diarahkan ke login customer
 });
-
-Route::get('/login', function () {
-    return view('login');
-})->name('login');
 
 Route::post('/login', [App\Http\Controllers\AuthController::class, 'login']);
 
@@ -37,7 +33,7 @@ Route::get('/nama', function () {
     return view('nama', ['nama' => 'Joko Susilo']);
 });
 
-Route::get('/tes', [App\Http\Controllers\ContohController::class, 'tes']);
+Route::get('/tes', [App\Http\Controllers\AuthController::class, 'tes']);
 
 // =====================
 // PDF Presensi
@@ -51,10 +47,6 @@ Route::get('/presensi/pdf', [PDFController::class, 'presensiPdf'])->name('presen
 // =====================
 
 Route::resource('coa', App\Http\Controllers\CoaController::class);
-
-use App\Http\Controllers\PerusahaanController;
-Route::resource('perusahaan', PerusahaanController::class);
-Route::get('/perusahaan/destroy/{id}', [PerusahaanController::class, 'destroy']);
 
 // =====================
 // Customer Area (with Middleware)
@@ -80,3 +72,9 @@ Route::middleware([CustomerMiddleware::class])->group(function () {
 // =====================
 
 Route::get('/cek_status_pembayaran_pg', [KeranjangController::class, 'cek_status_pembayaran_pg']);
+
+Route::get('/register', [AuthController::class, 'showRegisterForm']);
+Route::post('/register', [AuthController::class, 'register']);
+
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
