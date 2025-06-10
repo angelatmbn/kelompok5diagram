@@ -12,4 +12,8 @@ class coa extends Model
 
     protected $guarded = [];
 
+    public function JournalDetail()
+    {
+        return $this->hasMany(JurnalDetail::class);
+    }
 }

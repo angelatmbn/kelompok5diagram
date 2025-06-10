@@ -20,6 +20,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select; //untuk penggunaan select
 use Filament\Forms\Components\Repeater; //untuk penggunaan repeater
 use Filament\Tables\Columns\TextColumn; //untuk tampilan tabel
+
 use Filament\Forms\Components\Placeholder; //untuk menggunakan text holder
 use Filament\Forms\Get; //menggunakan get
 use Filament\Forms\Set; //menggunakan set
@@ -43,7 +44,7 @@ class PenjualanResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
 
-        // merubah nama label menjadi Pembeli
+    // merubah nama label menjadi Pembeli
     protected static ?string $navigationLabel = 'Penjualan';
 
     // tambahan buat grup masterdata
@@ -53,7 +54,44 @@ class PenjualanResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Select::make('pelanggan_id')
+                    ->label('Pelanggan')
+                    ->relationship('pelanggan', 'nama') // pastikan relasi sudah dibuat di model
+                    ->required(),
+
+                Hidden::make('no_faktur')
+                    ->required()
+                    ->default(function () {
+                        $tanggal = now()->format('Ymd');
+                        $prefix = 'INV-' . $tanggal . '-';
+
+                        // Hitung jumlah transaksi hari ini
+                        $count = \App\Models\Penjualan::whereDate('created_at', now())->count() + 1;
+
+                        // Format jadi 4 digit, misal: 0001, 0010, dst
+                        $nomor = str_pad($count, 4, '0', STR_PAD_LEFT);
+
+                        return $prefix . $nomor;
+                    }),
+
+                Select::make('status')
+                    ->label('Status')
+                    ->options([
+                        'pesan' => 'Pesan',
+                        'bayar' => 'Bayar',
+                    ])
+                    ->default('pesan')
+                    ->required(),
+
+                DateTimePicker::make('tgl')
+                    ->label('Tanggal')
+                    ->required(),
+
+                TextInput::make('total_tagihan')
+                    ->label('Total Tagihan')
+                    ->numeric()
+                    ->prefix('Rp')
+                    ->required(),
             ]);
     }
 
@@ -61,13 +99,18 @@ class PenjualanResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('no_faktur')->label('No Faktur')->searchable(),
+                TextColumn::make('pelanggan.nama')->label('Pelanggan')->searchable(),
+                TextColumn::make('status')->label('Status'),
+                TextColumn::make('tgl')->label('Tanggal')->dateTime(),
+                TextColumn::make('total_tagihan')->label('Total')->money('IDR'),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
