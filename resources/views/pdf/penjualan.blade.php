@@ -17,7 +17,7 @@
         <thead>
             <tr>
                 <th>No Faktur</th>
-                <th>Nama Pembeli</th>
+                <th>Nama Pelanggan</th>
                 <th>Status</th>
                 <th>Tagihan</th>
                 <th>Tgl</th>
@@ -27,7 +27,7 @@
             @foreach($penjualan as $p)
             <tr>
                 <td>{{ $p->no_faktur }}</td>
-                <td>{{ optional($p->pembeli)->nama_pembeli }}</td>
+                <td>{{ optional($p->pelanggan)->nama_pelanggan }}</td>
                 <td>{{ $p->status }}</td>
                 <td class="text-right">{{ rupiah($p->tagihan) }}</td>
                 <td>{{ $p->created_at }}</td>

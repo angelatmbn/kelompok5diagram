@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
  * @property string $no_faktur
  * @property string $status
  * @property string $tgl
- * @property string $total_tagihan
+ * @property string $tagihan
  */
 class Penjualan extends Model
 {
