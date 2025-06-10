@@ -21,27 +21,32 @@ class AuthController extends Controller
 
     // proses validasi data login
     public function login(Request $request)
-    {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|min:6',
-        ]);
+{
+    $credentials = $request->validate([
+        'email' => 'required|email',
+        'password' => 'required|min:6',
+    ]);
 
-        // if (Auth::attempt($credentials)) {
-        $user = User::where('email', $request->email)->first();
-
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            return back()->withErrors(['email' => 'Email atau password salah.']);
-        }
-
-        if ($user->user_group !== 'customer') {
-            return back()->withErrors(['email' => 'Akses hanya untuk customer.']);
-        }
-
-        Auth::login($user);
+    if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
         $request->session()->regenerate();
-        return redirect()->intended('/depan');
+
+        $user = Auth::user();
+
+        if ($user->user_group === 'admin') {
+            return redirect('/admin'); // halaman admin
+        } elseif ($user->user_group === 'customer') {
+            return redirect('/depan'); // halaman customer
+        } else {
+            Auth::logout(); // kalau user_group tidak dikenal
+            return redirect('/login')->withErrors(['user_group' => 'Role tidak dikenal.']);
+        }
     }
+
+    return back()->withErrors([
+        'email' => 'Email atau password salah.',
+    ]);
+}
+
 
     // method untuk menangani logout
     public function logout(Request $request)
@@ -53,14 +58,12 @@ class AuthController extends Controller
     }
 
     // ubah password
-    public function ubahpassword()
-    {
+    public function ubahpassword(){
         return view('ubahpassword');
     }
 
     // ubah password
-    public function prosesubahpassword(Request $request)
-    {
+    public function prosesubahpassword(Request $request){
         // echo $request->password ;
         $request->validate([
             'password' => 'required|string|min:5',

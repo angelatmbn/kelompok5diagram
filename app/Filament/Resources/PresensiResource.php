@@ -58,8 +58,8 @@ class PresensiResource extends Resource
                         Tabs\Tab::make('Jam Masuk')
                             ->schema([
                                 TimePicker::make('jam_masuk')
-                                    ->label('Jam Masuk')
-                                    ->required(),
+                                    ->label('Jam Masuk'),
+                                    
                             ]),
                         Tabs\Tab::make('Jam Keluar')
                             ->schema([
