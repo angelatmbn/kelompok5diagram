@@ -47,12 +47,12 @@ class DetailPenjualan extends Model
     //relasi ke tabel penjualan
     public function penjualan()
     {
-        return $this->belongsTo(Penjualan::class,'penjualan_id');
+        return $this->belongsTo(Penjualan::class, 'penjualan_id');
     }
 
     //realsi ke tabel menu
     public function menu()
     {
-        return $this->belongsTo(Menu::class,'menu_id');
+        return $this->belongsTo(Menu::class, 'menu_id');
     }
 }
