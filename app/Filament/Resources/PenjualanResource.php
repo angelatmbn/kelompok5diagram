@@ -9,6 +9,16 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+
+// model
+use App\Models\Pembeli;
+use App\Models\Barang;
+use App\Models\Pembayaran;
+use App\Models\PenjualanBarang;
+
+// DB
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DateTimePicker;
@@ -31,6 +41,8 @@ class PenjualanResource extends Resource
 {
     protected static ?string $model = Penjualan::class;
     protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
+
+    // merubah nama label menjadi Pembeli
     protected static ?string $navigationLabel = 'Penjualan';
     protected static ?string $navigationGroup = 'Transaksi';
 
@@ -222,6 +234,7 @@ class PenjualanResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
