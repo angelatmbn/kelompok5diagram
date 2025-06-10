@@ -9,7 +9,7 @@ class JurnalDetail extends Model
 {
     use HasFactory;
 
-    protected $table = 'jurnal_details'; // Nama tabel eksplisit
+    protected $table = 'jurnal_detail'; // Nama tabel eksplisit
 
     protected $guarded = [];
 

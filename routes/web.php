@@ -72,13 +72,10 @@ Route::middleware([CustomerMiddleware::class])->group(function () {
 // =====================
 
 Route::get('/cek_status_pembayaran_pg', [KeranjangController::class, 'cek_status_pembayaran_pg']);
-<<<<<<< HEAD
 Route::post('/keranjang/tambah', [KeranjangController::class, 'tambahKeKeranjang']);
-=======
 
 Route::get('/register', [AuthController::class, 'showRegisterForm']);
 Route::post('/register', [AuthController::class, 'register']);
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
->>>>>>> 519817204e2598416ec72975b2a8e9cff4710d33
