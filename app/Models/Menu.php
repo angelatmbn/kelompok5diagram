@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\DB;
 class Menu extends Model
 {
     use HasFactory;
-
     protected $primaryKey = 'id_menu';
     public $incrementing = false;
     protected $keyType = 'string';
