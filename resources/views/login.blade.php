@@ -10,12 +10,13 @@
   <style>
     * {
       font-family: 'Inter', sans-serif;
+      box-sizing: border-box;
     }
 
     body {
       margin: 0;
       padding: 0;
-      background: linear-gradient(to right, #f5f5f5, #e0d6c3); /* gradasi beige */
+      background: linear-gradient(to right, #f5f5f5, #e0d6c3);
       height: 100vh;
       display: flex;
       align-items: center;
@@ -24,36 +25,53 @@
 
     .login-card {
       background-color: #ffffff;
-      border-radius: 12px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+      padding: 40px 30px;
       width: 100%;
-      max-width: 400px;
+      max-width: 420px;
+      transition: 0.3s;
     }
 
     .logo {
       display: flex;
       justify-content: center;
-      margin-bottom: 24px;
+      margin-bottom: 30px;
+    }
+
+    .logo img {
+      width: 160px;
+      height: auto;
+      object-fit: contain;
     }
 
     .form-label {
       font-weight: 600;
-      color: #4e342e; /* warna coklat gelap */
+      color: #4e342e;
+      margin-bottom: 6px;
+      display: block;
     }
 
     .form-control {
-      border-radius: 8px;
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
       border: 1px solid #ccc;
-      padding: 10px;
+      margin-bottom: 20px;
+      font-size: 15px;
     }
 
     .btn-primary {
-      background-color: #6d4c41; /* warna coklat */
+      width: 100%;
+      background-color: #6d4c41;
       border: none;
-      padding: 12px;
-      border-radius: 8px;
+      padding: 14px;
+      border-radius: 10px;
       font-weight: 600;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
     }
 
     .btn-primary:hover {
@@ -61,13 +79,22 @@
     }
 
     .alert {
-      color: red;
+      background-color: #ffe5e5;
+      color: #d32f2f;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 20px;
       font-size: 14px;
-      margin-bottom: 15px;
     }
 
-    .text-center {
-      text-align: center;
+    @media (max-width: 480px) {
+      .login-card {
+        padding: 30px 20px;
+      }
+
+      .logo img {
+        width: 120px;
+      }
     }
   </style>
 </head>
@@ -76,12 +103,12 @@
 
   <div class="login-card">
     <div class="logo">
-      <img src="{{ asset('images/logos/mukena.PNG') }}" width="150" alt="Cafe Diagram Logo">
+      <img src="{{ asset('images/logos/mukena.PNG') }}" alt="Cafe Diagram Logo">
     </div>
 
     @if ($errors->any())
       <div class="alert">
-        <ul>
+        <ul style="margin: 0; padding-left: 20px;">
           @foreach ($errors->all() as $error)
             <li>{{ $error }}</li>
           @endforeach
@@ -91,17 +118,13 @@
 
     <form method="POST" action="{{ url('/login') }}">
       @csrf
-      <div class="mb-3">
-        <label for="email" class="form-label">Username</label>
-        <input type="email" class="form-control" id="email" name="email" required>
-      </div>
+      <label for="email" class="form-label">Username</label>
+      <input type="email" class="form-control" id="email" name="email" required>
 
-      <div class="mb-4">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" name="password" required>
-      </div>
+      <label for="password" class="form-label">Password</label>
+      <input type="password" class="form-control" id="password" name="password" required>
 
-      <button type="submit" class="btn btn-primary w-100">Login</button>
+      <button type="submit" class="btn-primary">Login</button>
     </form>
   </div>
 

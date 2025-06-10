@@ -45,7 +45,7 @@ class PenjualanResource extends Resource
                                 ->icon('heroicon-m-document-duplicate')
                                 ->schema([
                                     TextInput::make('no_faktur')
-                                        ->default(fn() => Penjualan::generateKodeFaktur())
+                                        ->default(fn() => Penjualan::getKodeFaktur())
                                         ->label('Nomor Faktur')
                                         ->required()
                                         ->readOnly(),
