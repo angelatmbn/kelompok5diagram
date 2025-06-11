@@ -45,7 +45,7 @@ class Penjualan extends Model
     // relasi ke tabel detail penjualan
     public function detailPenjualan()
     {
-        return $this->hasMany(DetailPenjualan::class,'penjualan_id');
+        return $this->hasMany(DetailPenjualan::class, 'penjualan_id');
     }
 
     // relasi ke tabel pelanggan

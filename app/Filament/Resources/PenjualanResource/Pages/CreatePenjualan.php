@@ -32,7 +32,7 @@ class CreatePenjualan extends CreateRecord
             Actions\Action::make('bayar')
                 ->label('Bayar')
                 ->color('success')
-                ->action(fn () => $this->simpanPembayaran())
+                ->action(fn() => $this->simpanPembayaran())
                 ->requiresConfirmation()
                 ->modalHeading('Konfirmasi Pembayaran')
                 ->modalDescription('Apakah Anda yakin ingin menyimpan pembayaran ini?')
@@ -48,10 +48,10 @@ class CreatePenjualan extends CreateRecord
         // Simpan ke tabel pembayaran2
         Pembayaran::create([
             'penjualan_id' => $penjualan->id,
-            'tgl_bayar'    => now(),
+            'tgl_bayar' => now(),
             'jenis_pembayaran' => 'tunai',
             'transaction_time' => now(),
-            'gross_amount'       => $penjualan->tagihan, // Sesuaikan dengan field di tabel pembayaran
+            'gross_amount' => $penjualan->tagihan, // Sesuaikan dengan field di tabel pembayaran
             'order_id' => $penjualan->no_faktur,
         ]);
 
