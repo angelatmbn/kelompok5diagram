@@ -97,22 +97,22 @@ class BukuBesarResource extends Resource
     }
 
     // Menampilkan data sesuai periode yang dipilih
-    // public static function getViewData(): array
-    // {
-    //     // $periode = request('periode') ?? now()->format('Y-m'); // Periode default
+    public static function getViewData(): array
+    {
+        $periode = request('periode') ?? now()->format('Y-m'); // Periode default
 
-    //     // $bukuBesarsQuery = BukuBesar::query();
+        $bukuBesarsQuery = BukuBesar::query();
 
-    //     // if ($periode) {
-    //     //     [$year, $month] = explode('-', $periode);
-    //     //     $bukuBesarsQuery->whereYear('tgl', $year)->whereMonth('tgl', $month);
-    //     // }
+        if ($periode) {
+            [$year, $month] = explode('-', $periode);
+            $bukuBesarsQuery->whereYear('tgl', $year)->whereMonth('tgl', $month);
+        }
 
-    //     // $bukuBesars = $bukuBesarsQuery->get();
+        $bukuBesars = $bukuBesarsQuery->get();
 
-    //     // return [
-    //     //     'bukuBesars' => $bukuBesars,
-    //     //     'periode' => $periode,
-    //     // ];
-    // }
+        return [
+            'bukuBesars' => $bukuBesars,
+            'periode' => $periode,
+        ];
+    }
 }

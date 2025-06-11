@@ -32,23 +32,23 @@
     font-size: 2.75rem;
     letter-spacing: -0.02em;
     margin-bottom: 1.5rem;
-    color: #1a1a1a;
+    color:rgb(178, 175, 165);
   }
   .card-title {
     font-weight: 600;
     font-size: 1.125rem;
-    color: #222222;
+    color:rgb(178, 175, 165);
   }
   p.card-text {
-    color: #6b6b6b;
+    color:rgb(178, 175, 165);
   }
   h6 {
-    color: #333333;
+    color:rgb(226, 223, 215);
   }
 
   /* Cards */
   .card {
-    background: linear-gradient(145deg, #f5f5f5, #e0dcdc);
+    background: linear-gradient(to top,rgb(78, 69, 69),rgb(51, 36, 36));
     border-radius: 0.75rem;
     color: #222222;
     box-shadow: 0 4px 12px rgb(0 0 0 / 0.05);
@@ -115,7 +115,7 @@
 
   /* Header adjustments */
   header {
-    background-color: #faf5ec;
+    background-color:rgb(28, 26, 22);
     border-bottom: 1px solid #e0dcd6;
   }
   .search-bar {
@@ -144,12 +144,14 @@
   padding: 5px 8px;
   top: 0;
   right: -10px;
+  background-color: #c9bca8;
+  color: #4a422b;
 }
 
 .cart-total {
   font-size: 1.25rem;
   font-weight: bold;
-  color: #4a422b;
+  color:rgb(178, 175, 165);
   white-space: nowrap;
 }
 
@@ -170,7 +172,7 @@
       <div class="col-sm-4 col-lg-3 text-center text-sm-start">
         <div class="main-logo">
           <a href="index.html" aria-label="Homepage">
-            <img src="{{ asset('foto\diagram.jpg') }}" alt="logo" class="img-fluid" style="max-height: 48px;">
+            <img src="{{ asset('images/logos/diagram.PNG') }}" alt="Cafe Diagram Logo" class="img-fluid" style="max-height: 48px;">
           </a>
         </div>
       </div>
@@ -200,18 +202,18 @@
   <!-- CART -->
   <div class="position-relative">
     <button class="border-0 bg-transparent d-flex flex-column text-start" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
-      <span class="fs-6 text-muted">Your Cart</span>
-      <span class="cart-total fs-5 fw-bold">Rp 0</span>
+      <span class="cart-total fs-5 fw-bold" style="color:rgb(178, 175, 165)">Your Cart</span>
+      <span class="cart-total fs-5 fw-bold" style="color:rgb(178, 175, 165)">Rp 0</span>
     </button>
-    <span class="cart-badge position-absolute badge rounded-pill bg-primary" style="top: -10px; right: -10px; display: none;">0</span>
+    <span class="cart-badge position-absolute badge rounded-pill" style="top: -10px; right: -10px; display: none;">0</span>
   </div>
 
   <!-- TOMBOL AKSI -->
   <div class="d-flex flex-wrap gap-2">
-    <button class="btn btn-primary btn-sm" onclick="window.location.href='/lihatkeranjang'">Lihat Keranjang</button>
-    <a href="/depan" class="btn btn-dark btn-sm">Lihat Galeri</a>
-    <a href="/lihatriwayat" class="btn btn-info btn-sm">Riwayat Pemesanan</a>
-    <a href="/logout" class="btn btn-danger btn-sm">Keluar</a>
+    <button class="btn btn-primary" onclick="window.location.href='/lihatkeranjang'">Lihat Keranjang</button>
+    <a href="/depan" class="btn btn-primary">Lihat Galeri</a>
+    <a href="/lihatriwayat" class="btn btn-primary">Riwayat Pemesanan</a>
+    <a href="/logout" class="btn btn-primary">Keluar</a>
   </div>
 </div>
 
@@ -431,29 +433,30 @@ document.addEventListener('DOMContentLoaded', function() {
                   });
 
                   // Kirim ke server Laravel
-                  fetch('/keranjang/tambah', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-  },
-  body: JSON.stringify({
-    id: productId,
-    nama: productName,
-    harga: productPrice,
-    quantity: quantity,
-    type: 'produk',
-    foto: productImage  // ✅ wajib ditambahkan
-  })
-})
-
-                  .then(res => res.json())
-                  .then(data => {
-                    console.log('✅ Sync ke server:', data);
-                  })
-                  .catch(err => {
-                    console.error('❌ Gagal sync ke server:', err);
-                  });
+                  // Kirim ke server Laravel
+                fetch('/keranjang/tambah', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        id: productId,
+                        nama: productName,
+                        harga: productPrice,
+                        quantity: quantity,
+                        type: 'produk'
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('✅ Server response:', data);
+                    notify('Produk berhasil ditambahkan ke keranjang!');
+                })
+                .catch(error => {
+                    console.error('❌ Error:', error);
+                    notify('Gagal menambahkan ke keranjang', 'error');
+                });
 
                   console.log('✅ Added new item');
                 }

@@ -51,11 +51,11 @@
       @forelse($menu as $p)
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="product-item">
-          <img src="{{ Storage::url($p->foto) }}" alt="{{ $p->nama_menu }}" class="img-fluid">
-          <h3>{{ $p->nama_menu }}</h3>
-          <div class="qty">Jumlah: {{ $p->total_menu }} Unit</div>
-          <div class="price"><b>Total: {{ rupiah($p->total_belanja) }}</b></div>
-          <button class="btn btn-danger btn-sm w-100 mt-2" onclick="hapus({{ $p->menu_id }})">Hapus</button>
+          <img src="{{ Storage::url($p['foto']) }}" alt="{{ $p['nama'] }}" class="img-fluid">
+          <h3>{{ $p['nama'] }}</h3>
+          <div class="qty">Jumlah: {{ $p['quantity'] }} Unit</div>
+          <div class="price"><b>Total: {{ rupiah($p['harga'] * $p['quantity']) }}</b></div>
+          <button class="btn btn-danger btn-sm w-100 mt-2" onclick="hapus({{ $p['id'] }})">Hapus</button>
         </div>
       </div>
       @empty
