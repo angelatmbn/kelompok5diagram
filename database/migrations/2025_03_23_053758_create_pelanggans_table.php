@@ -1,16 +1,36 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+namespace App\Filament\Widgets;
 
-return new class extends Migration
+use Filament\Widgets\ChartWidget;
+use App\Models\Penjualan;
+
+class TotalPenjualanPerPelangganChart extends ChartWidget
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    protected static ?string $heading = 'Total Penjualan per Pelanggan';
+
+    protected function getData(): array
     {
+<<<<<<< HEAD
+        $data = Penjualan::query()
+            ->join('pelanggan', 'penjualan.pelanggan_id', '=', 'pelanggan.id')
+            ->where('penjualan.status', 'bayar')
+            ->selectRaw('pelanggan.nama as nama_pelanggan, SUM(penjualan.total_tagihan) as total_penjualan')
+            ->groupBy('pelanggan.nama')
+            ->orderByDesc('total_penjualan')
+            ->get();
+
+        return [
+            'datasets' => [
+                [
+                    'label' => 'Total Penjualan',
+                    'data' => $data->pluck('total_penjualan')->toArray(),
+                    'backgroundColor' => '#fa9baf',
+                ],
+            ],
+            'labels' => $data->pluck('nama_pelanggan')->toArray(),
+        ];
+=======
         Schema::create('pelanggan', function (Blueprint $table) {
             $table->id();
             $table->string('id_pelanggan')->unique();
@@ -24,10 +44,11 @@ return new class extends Migration
 });
        
 
+>>>>>>> 519817204e2598416ec72975b2a8e9cff4710d33
     }
-    
-    public function down(): void
+
+    protected function getType(): string
     {
-        Schema::dropIfExists('pelanggan');
+        return 'bar'; // Atau 'pie', 'line', dll
     }
-};
+}

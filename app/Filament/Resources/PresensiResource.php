@@ -26,7 +26,7 @@ class PresensiResource extends Resource
     protected static ?string $model = Presensi::class;
     protected static ?string $navigationIcon = 'heroicon-o-clock';
     protected static ?string $navigationLabel = 'Presensi';
-    protected static ?string $navigationGroup = 'Kepegawaian';
+    protected static ?string $navigationGroup = 'Transaksi';
 
     public static function form(Form $form): Form
     {
