@@ -14,7 +14,7 @@ class TotalPenjualanPerPelangganChart extends ChartWidget
         $data = Penjualan::query()
             ->join('detail_penjualan', 'detail_penjualan.id', '=', 'detail_penjualan.penjualan_id')
             ->join('pelanggan', 'penjualan.pelanggan_id', '=', 'pelanggan.id') // Sesuaikan relasi
-            // ->where('penjualan.status', 'bayar')
+            ->where('penjualan.status', 'bayar')
             ->selectRaw('pelanggan.nama, SUM(penjualan.total_tagihan) as total_penjualan')
             ->groupBy('pelanggan.nama')
             ->get();

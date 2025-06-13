@@ -13,6 +13,8 @@ class JurnalDetail extends Model
 
     protected $guarded = [];
 
+    protected $fillable = ['jurnal_id', 'coa_id', 'debit', 'credit', 'deskripsi'];
+
     // relasi ke tabel jurnal
     public function jurnal()
     {

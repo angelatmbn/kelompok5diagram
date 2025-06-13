@@ -12,6 +12,21 @@ class Pembayaran extends Model
 
     protected $guarded = [];
 
+    protected $fillable = [
+    'penjualan_id',
+    'tgl_bayar',
+    'jenis_pembayaran',
+    'transaction_time',
+    'gross_amount',
+    'order_id',
+    'payment_type',
+    'status_code',
+    'transaction_id',
+    'settlement_time',
+    'status_message',
+    'merchant_id'
+];
+
     //relasi ke tabel penjualan
     public function penjualan()
     {

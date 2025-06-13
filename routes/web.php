@@ -79,3 +79,13 @@ Route::post('/register', [AuthController::class, 'register']);
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
+
+Route::post('/keranjang/clear', [KeranjangController::class, 'clearCart']);
+
+Route::get('/bayar/sukses', [KeranjangController::class, 'bayarSukses']);
+
+Route::post('/midtrans/callback', [KeranjangController::class, 'midtransCallback']);
+
+Route::post('/pembayaran/sukses', [PembayaranController::class, 'simpanDariSnap']);
+
+Route::post('/pembayaran/simpan', [PembayaranController::class, 'simpan']);
