@@ -106,8 +106,8 @@ if (!sessionStorage.getItem('cart_refreshed') && {{ session('should_autorefresh'
     color: #fff;
   }
   .btn-outline-dark {
-    border-color: #444;
-    color: #444;
+    background-color: #3a332d;
+    color: #e8e3d9;
   }
   .btn-outline-dark:hover {
     border-color: #222;
@@ -206,6 +206,43 @@ if (!sessionStorage.getItem('cart_refreshed') && {{ session('should_autorefresh'
   white-space: nowrap;
 }
 
+input.quantity-input {
+  background-color: #3a332d !important; /* warna gelap membaur */
+  color: #e8e3d9 !important; /* teks terang agar kontras */
+  border: 1.5px solid #665c4f !important;
+  font-weight: 600;
+}
+
+input.quantity-input:focus {
+  background-color: #49413a !important;
+  border-color: #c9bca8 !important;
+  color: #ffffff !important;
+  outline: none;
+  box-shadow: none;
+}
+
+.quantity-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* jarak antara input dan tombol tambah */
+  flex-wrap: nowrap;
+}
+
+/* Bikin tombol + - dan input quantity sama tinggi */
+.quantity-group .btn-number,
+.quantity-group .quantity-input {
+  height: 38px;
+  padding: 0 10px;
+  font-size: 16px;
+  border-radius: 0.5rem;
+}
+
+/* Lebar input quantity */
+.quantity-group .quantity-input {
+  width: 50px;
+  text-align: center;
+}
+
 </style>
 
 <header>
@@ -298,36 +335,35 @@ if (!sessionStorage.getItem('cart_refreshed') && {{ session('should_autorefresh'
                       <h6 class="fw-bold mb-3 product-price" data-price="{{ $p->harga }}">{{ rupiah($p->harga) }}</h6>
                       <div class="d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center justify-content-between">
-  <div class="input-group input-group-sm" style="width: 110px;">
-    <!-- Tombol Minus -->
-    <button type="button" class="btn btn-outline-dark btn-number btn-minus" data-product-id="{{ $p->id_menu }}">
-      <span>-</span>
-    </button>
+                        <div class="d-flex flex-column align-items-center gap-2 mt-3">
+                          <div class="d-flex justify-content-center gap-2 quantity-group w-100">
+                          <!-- Tombol Minus -->
+                          <button type="button" class="btn btn-outline-dark btn-number btn-minus" data-product-id="{{ $p->id_menu }}">
+                            <span>-</span>
+                          </button>
 
-    <!-- Input Quantity -->
-    <input type="text" id="quantity-{{ $p->id_menu }}" name="quantity" 
-           class="form-control text-center quantity-input" 
-           value="1" 
-           style="color: #4a422b; background-color: #f5f5e8; border-color: #e0dcd6;">
+                        <input type="text" id="quantity-{{ $p->id_menu }}" name="quantity" 
+                              class="form-control text-center quantity-input" 
+                              value="1">
 
-    <!-- Tombol Plus -->
-    <button type="button" 
-            class="btn btn-outline-dark btn-number btn-plus" 
-            data-product-id="{{ $p->id_menu }}" 
-            data-stok="{{ $p->stok }}">
-      <span>+</span>
-    </button>
-  </div>
+                          <!-- Tombol Plus -->
+                          <button type="button" 
+                                  class="btn btn-outline-dark btn-number btn-plus" 
+                                  data-product-id="{{ $p->id_menu }}" 
+                                  data-stok="{{ $p->stok }}">
+                            <span>+</span>
+                          </button>
+                        </div>
 
-  <!-- Tombol Tambah ke Keranjang -->
-  <button type="button" class="btn btn-dark btn-sm rounded-pill add-to-cart" data-product-id="{{ $p->id_menu }}">
-    <svg width="20" height="20" fill="#c9bca8" viewBox="0 0 24 24">
-      <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
-    </svg> 
-    Tambah
-  </button>
-</div>
-
+                        <!-- Tombol Tambah ke Keranjang -->
+                          <button type="button" class="btn btn-dark add-to-cart w-100" data-product-id="{{ $p->id_menu }}">
+                            <svg width="20" height="20" fill="#c9bca8" viewBox="0 0 24 24" class="me-1">
+                            <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                          </svg> 
+                          Tambah
+                        </button>
+                      </div>
+                      </div>
                       </div>
                     </div>
                   </div>
