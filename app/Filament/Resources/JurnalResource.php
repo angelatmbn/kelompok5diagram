@@ -66,7 +66,7 @@ class JurnalResource extends Resource
                     ->schema([
                         Select::make('coa_id')
                             ->label('Akun')
-                            ->options(Coa::all()->pluck('nama_akun', 'id'))
+                            ->options(coa::all()->pluck('nama_akun', 'id'))
                             ->searchable()
                             ->required(),
                         TextInput::make('debit')
