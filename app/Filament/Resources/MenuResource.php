@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\MenuResource\Pages;
 use App\Models\Menu;
-use App\Models\KategoriMenu;
+use App\Models\kategoriMenu;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;

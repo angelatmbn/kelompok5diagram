@@ -12,7 +12,7 @@ use Filament\Tables\Columns\ImageColumn;
 
 use App\Filament\Resources\KategoriMenuResource\Pages;
 use App\Filament\Resources\KategoriMenuResource\RelationManagers;
-use App\Models\KategoriMenu;
+use App\Models\kategoriMenu;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
