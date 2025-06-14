@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Auth\RegisterController;
 
 // =====================
 // View Default & Login
@@ -89,3 +90,6 @@ Route::post('/midtrans/callback', [KeranjangController::class, 'midtransCallback
 Route::post('/pembayaran/sukses', [PembayaranController::class, 'simpanDariSnap']);
 
 Route::post('/pembayaran/simpan', [PembayaranController::class, 'simpan']);
+
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register']);
