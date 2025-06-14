@@ -23,7 +23,7 @@
                             <label for="coa_id">Akun COA:</label>
                             <select wire:model="coa_id" id="coa_id" class="border rounded px-2 py-1">
                                 <option value="">-- Pilih Akun --</option>
-                                @foreach (\App\Models\Coa::all() as $akun)
+                                @foreach (\App\Models\coa::all() as $akun)
                                     <option value="{{ $akun->id }}">{{ $akun->kode_akun }} - {{ $akun->nama_akun }}</option>
                                 @endforeach
                             </select>

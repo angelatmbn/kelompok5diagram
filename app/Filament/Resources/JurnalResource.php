@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 // tambahan
-use App\Models\Coa;
+use App\Models\coa;
 use App\Models\JurnalDetail;
 
 use Filament\Forms\Components\Repeater;

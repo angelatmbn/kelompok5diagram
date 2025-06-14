@@ -9,7 +9,7 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Widgets\StatsOverviewWidget\Card;
 use App\Models\Penjualan;
 use App\Models\Penggajian;
-use App\Models\Coa;
+use App\Models\coa;
 use App\Models\Pelanggan;
 
 use Illuminate\Support\Number;

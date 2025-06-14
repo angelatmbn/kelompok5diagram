@@ -1,36 +1,16 @@
 <?php
 
-namespace App\Filament\Widgets;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-use Filament\Widgets\ChartWidget;
-use App\Models\Penjualan;
-
-class TotalPenjualanPerPelangganChart extends ChartWidget
+return new class extends Migration
 {
-    protected static ?string $heading = 'Total Penjualan per Pelanggan';
-
-    protected function getData(): array
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
     {
-<<<<<<< HEAD
-        $data = Penjualan::query()
-            ->join('pelanggan', 'penjualan.pelanggan_id', '=', 'pelanggan.id')
-            ->where('penjualan.status', 'bayar')
-            ->selectRaw('pelanggan.nama as nama_pelanggan, SUM(penjualan.total_tagihan) as total_penjualan')
-            ->groupBy('pelanggan.nama')
-            ->orderByDesc('total_penjualan')
-            ->get();
-
-        return [
-            'datasets' => [
-                [
-                    'label' => 'Total Penjualan',
-                    'data' => $data->pluck('total_penjualan')->toArray(),
-                    'backgroundColor' => '#fa9baf',
-                ],
-            ],
-            'labels' => $data->pluck('nama_pelanggan')->toArray(),
-        ];
-=======
         Schema::create('pelanggan', function (Blueprint $table) {
             $table->id();
             $table->string('id_pelanggan')->unique();
@@ -41,14 +21,14 @@ class TotalPenjualanPerPelangganChart extends ChartWidget
             $table->date('tanggal_lahir')->nullable();
             $table->enum('jenis_kelamin', ['laki-laki', 'perempuan'])->nullable();
             $table->timestamps();
-});
-       
-
->>>>>>> 519817204e2598416ec72975b2a8e9cff4710d33
+        });
     }
 
-    protected function getType(): string
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
-        return 'bar'; // Atau 'pie', 'line', dll
+        Schema::dropIfExists('pelanggan');
     }
-}
+};
