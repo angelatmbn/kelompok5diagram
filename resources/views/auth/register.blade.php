@@ -4,9 +4,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Login - Cafe Diagram</title>
+  <title>Register - Cafe Diagram</title>
   <link rel="shortcut icon" type="image/png" href="{{ asset('images/logos/favicon.png') }}" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
   <style>
     * {
       font-family: 'Inter', sans-serif;
@@ -24,7 +25,7 @@
     }
 
     .login-card {
-      background-color:rgb(46, 37, 28);
+      background-color: rgb(46, 37, 28);
       border-radius: 16px;
       box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
       padding: 40px 30px;
@@ -47,7 +48,7 @@
 
     .form-label {
       font-weight: 600;
-      color:rgb(255, 255, 255);
+      color: rgb(255, 255, 255);
       margin-bottom: 6px;
       display: block;
     }
@@ -100,31 +101,10 @@
 </head>
 
 <body>
-
   <div class="login-card">
     <div class="logo">
       <img src="{{ asset('images/logos/diagram.png') }}" alt="Cafe Diagram Logo">
     </div>
-
-  <script src="{{asset('libs/jquery/dist/jquery.min.js')}}"></script>
-  <script src="{{asset('libs/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
-  <script>
-    document.getElementById('togglePassword').addEventListener('click', function() {
-      const passwordField = document.getElementById('password');
-      const passwordIcon = this.querySelector('i');
-
-      if (passwordField.type === 'password') {
-        passwordField.type = 'text';
-        passwordIcon.classList.remove('bi-eye');
-        passwordIcon.classList.add('bi-eye-slash');
-      } else {
-        passwordField.type = 'password';
-        passwordIcon.classList.remove('bi-eye-slash');
-        passwordIcon.classList.add('bi-eye');
-      }
-    });
-  </script>
-</body>
 
     @if ($errors->any())
       <div class="alert">
@@ -136,25 +116,31 @@
       </div>
     @endif
 
-    <form method="POST" action="{{ url('/login') }}">
+    <form method="POST" action="{{ route('register') }}">
       @csrf
-      <label for="email" class="form-label">Username</label>
-      <input type="email" class="form-control" id="email" name="email" required>
 
-      <label for="password" class="form-label">Password</label>
-      <input type="password" class="form-control" id="password" name="password" required>
+      <label class="form-label" for="name">Nama</label>
+      <input type="text" class="form-control" name="name" id="name" required>
 
-      <button type="submit" class="btn-primary">Login</button>
+      <label class="form-label" for="email">Email</label>
+      <input type="email" class="form-control" name="email" id="email" required>
 
-      <div style="text-align: center; margin-top: 20px;">
-      <span style="color: #f5f5f5; font-size: 14px;">Don't have an account?</span>
-      <a href="{{ route('register') }}" style="color: #e0d6c3; font-weight: 600; text-decoration: none; margin-left: 4px;">
-        Register now
-      </a>
-    </div>
+      <label class="form-label" for="password">Password</label>
+      <input type="password" class="form-control" name="password" id="password" required>
 
+      <label class="form-label" for="password_confirmation">Konfirmasi Password</label>
+      <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" required>
+
+      <button type="submit" class="btn-primary">Register</button>
+
+      <div style="text-align: center; margin-top: 16px;">
+        <span style="color: white;">Already have an account?</span><br>
+        <a href="{{ route('login') }}" style="color: #e0d6c3; font-weight: 600; text-decoration: none;">
+          Login now
+        </a>
+      </div>
     </form>
   </div>
-
 </body>
+
 </html>
