@@ -21,24 +21,24 @@ class EditJurnal extends EditRecord
     }
 
     // tambahan
-    protected function mutateFormDataBeforeSave(array $data): array
-    {
-        if (!isset($data['details']) || !is_array($data['details'])) {
-            throw Halt::make()->withValidationErrors([
-                'details' => 'Detail jurnal wajib diisi.',
-            ]);
-        }
+    // protected function mutateFormDataBeforeSave(array $data): array
+    // {
+    //     if (!isset($data['details']) || !is_array($data['details'])) {
+    //         throw Halt::make()->withValidationErrors([
+    //             'details' => 'Detail jurnal wajib diisi.',
+    //         ]);
+    //     }
 
-        $totalDebit = collect($data['details'])->sum('debit');
-        $totalCredit = collect($data['details'])->sum('credit');
+    //     $totalDebit = collect($data['details'])->sum('debit');
+    //     $totalCredit = collect($data['details'])->sum('credit');
 
-        if ($totalDebit != $totalCredit) {
-            throw \Filament\Exceptions\Halt::make()->withValidationErrors([
-                'details' => 'Total debit dan kredit harus sama.',
-            ]);
-        }
+    //     if ($totalDebit != $totalCredit) {
+    //         throw \Filament\Exceptions\Halt::make()->withValidationErrors([
+    //             'details' => 'Total debit dan kredit harus sama.',
+    //         ]);
+    //     }
 
-        return $data;
-    }
+    //     return $data;
+    // }
 
 }
