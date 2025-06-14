@@ -24,6 +24,6 @@ class JurnalDetail extends Model
     // relasi ke tabel coa
     public function coa()
     {
-        return $this->belongsTo(Coa::class);
+        return $this->belongsTo(coa::class);
     }
 }
