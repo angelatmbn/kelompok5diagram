@@ -114,7 +114,7 @@
 <header class="py-3 border-bottom" style="background-color:rgb(41, 37, 30);">
   <div class="container d-flex justify-content-between align-items-center">
     <a href="/depan">
-  <img src="{{ asset('images/logos/diagram.PNG') }}" alt="Cafe Diagram Logo" class="img-fluid" style="max-height: 48px;">
+  <img src="{{ asset('images/logos/diagram.png') }}" alt="Cafe Diagram Logo" class="img-fluid" style="max-height: 48px;">
 </a>
     <div class="d-flex gap-2">
               <a href="/depan" class="btn btn-primary px-4 py-2"><span class="nowrap">Lihat Galeri</span></a>

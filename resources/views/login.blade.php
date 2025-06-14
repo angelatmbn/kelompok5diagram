@@ -103,7 +103,7 @@
 
   <div class="login-card">
     <div class="logo">
-      <img src="{{ asset('images/logos/diagram.PNG') }}" alt="Cafe Diagram Logo">
+      <img src="{{ asset('images/logos/diagram.png') }}" alt="Cafe Diagram Logo">
     </div>
 
   <script src="{{asset('libs/jquery/dist/jquery.min.js')}}"></script>
