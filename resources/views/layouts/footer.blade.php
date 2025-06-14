@@ -4,7 +4,7 @@
 
       <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="footer-menu">
-          <img src="{{ asset('images/logos/diagram.PNG') }}" alt="Cafe Diagram Logo" class="img-fluid" style="max-height: 48px;">
+          <img src="{{ asset('images/logos/diagram.png') }}" alt="Cafe Diagram Logo" class="img-fluid" style="max-height: 48px;">
           <div class="social-links mt-5">
             <ul class="d-flex list-unstyled gap-2">
               <li>

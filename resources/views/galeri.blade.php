@@ -215,7 +215,7 @@ if (!sessionStorage.getItem('cart_refreshed') && {{ session('should_autorefresh'
       <!-- Logo -->
       <div class="col-lg-3 text-center text-lg-start">
         <a href="/" aria-label="Homepage">
-          <img src="{{ asset('images/logos/diagram.PNG') }}" alt="Cafe Diagram Logo" class="img-fluid" style="max-height: 48px;">
+          <img src="{{ asset('images/logos/diagram.png') }}" alt="Cafe Diagram Logo" class="img-fluid" style="max-height: 48px;">
         </a>
       </div>
 
