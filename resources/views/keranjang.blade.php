@@ -144,49 +144,21 @@
 
     </div>
   </div>
-
 </header>
 
-
 <section class="py-5">
-  <div class="container-fluid">
+  <div class="container" style="max-width: 1200px;">
+    <h3 class="text-center">Keranjang Anda</h3>
 
-    <div class="row">
-      <div class="col-md-12">
-
-        <div class="bootstrap-tabs product-tabs">
-          <div class="tabs-header d-flex justify-content-between border-bottom my-5">
-            <h3>Keranjang Anda</h3>
-          </div>
-          <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade show active" id="nav-all" role="tabpanel" aria-labelledby="nav-all-tab">
-
-              <meta name="csrf-token" content="{{ csrf_token() }}">
-              <div class="product-grid row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
-                @foreach($menu as $p)
-                <div class="col">
-                  <div class="product-item">
-                    <!-- <span class="badge bg-success position-absolute m-3">-30%</span> -->
-                    <a href="#" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></a>
-                    <figure>
-                      <a href="{{ Storage::url($p->foto) }}" title="Product Title">
-                        <img src="{{ Storage::url($p->foto) }}" class="img-fluid">
-                      </a>
-                    </figure>
-                    <h3>{{$p->nama_menu}}</h3>
-                    <span class="qty">Jumlah Pembelian: {{ $p->total_menu }} Unit</span><br>
-                    <span class="qty"><b>Total : {{rupiah($p->total_belanja)}}</b></span> <br>
-                    <button class="w-100 btn btn-danger btn-sm" type="submit" onclick="hapus({{ $p->menu_id }})">Hapus</button>
-                  </div>
-                </div>
-                @endforeach
-              </div>
-
-              <!-- / product-grid -->
-
-            </div>
-
-          </div>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+      @forelse($menu as $p)
+      <div class="col">
+        <div class="card h-100">
+          <img src="{{ $p['foto'] }}" alt="{{ $p['nama'] }}">
+          <h5 class="card-title">{{ $p['nama'] }}</h5>
+          <p class="qty">Jumlah: {{ $p['quantity'] }} Unit</p>
+          <p class="price"><strong>Total: {{ rupiah($p['harga'] * $p['quantity']) }}</strong></p>
+          <button class="btn btn-outline-dark btn-sm w-100 mt-2" onclick="hapus({{ $p['id'] }})">Hapus</button>
         </div>
 
         <!-- Tambahan List -->
@@ -203,51 +175,58 @@
          <!-- Akhir tambahan list -->
 
       </div>
+      @endforelse
     </div>
+
+    <ul class="list-group my-4">
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <span>Total Tagihan</span>
+        <strong>{{ rupiah($total_tagihan) }}</strong>
+      </li>
+    </ul>
+
+    @if($total_tagihan > 0)
+    <button id="pay-button" class="btn btn-primary btn-lg w-100 mt-2">Bayar Sekarang</button>
+    @endif
   </div>
 </section>
 
-<!-- Tambahan script untuk payment gateway -->
-<script type="text/javascript">
-    // Pastikan Midtrans Snap.js sudah dimuat
-    var payButton = document.getElementById('pay-button');
-    payButton.addEventListener('click', function () {
-        // console.log("Token:", "{{ $snap_token }}");
-        window.snap.pay('{{$snap_token}}', {
+<!-- MIDTRANS SNAP SCRIPT -->
+<script type="text/javascript"
+  src="https://app.sandbox.midtrans.com/snap/snap.js"
+  data-client-key="SB-Mid-client-9Y2AxMjo2exYcxMn"></script>
+
+<script>
+  const payBtn = document.getElementById('pay-button');
+  if (payBtn) {
+    payBtn.addEventListener('click', function () {
+      window.snap.pay('{{ $snap_token }}', {
         onSuccess: function(result){
-            console.log('Pembayaran berhasil:', result);
-            Swal.fire({
-                    icon: 'success',
-                    title: 'Berhasil!',
-                    text: 'Pembayaran Berhasil',
-                    showConfirmButton: false,
-                    timer: 2000 // Popup otomatis hilang setelah 2 detik
-                });
-            window.location.href = "/depan";
+          // Hapus session server
+          fetch('/keranjang/clear', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+          })
+          .then(() => {
+          // Redirect ke endpoint Laravel yang akan hapus session dan beri sinyal ke galeri
+          window.location.href = "/bayar/sukses";
+        });
         },
         onPending: function(result){
-            // console.log('Pembayaran tertunda:', result);
-            Swal.fire({
-                  icon: 'error',
-                  title: 'Oops...',
-                  text: 'Pembayaran Tertunda'
-                });
-            window.location.href = "/depan";
+          Swal.fire({ icon: 'info', title: 'Pembayaran Tertunda' });
+          window.location.href = "/depan";
         },
         onError: function(result){
-            // console.log('Pembayaran gagal:', result);
-            Swal.fire({
-                  icon: 'error',
-                  title: 'Oops...',
-                  text: 'Pembayaran Gagal'
-                });
-            // alert("Pembayaran gagal. Silakan coba lagi.");
-            window.location.href = "/depan";
+          Swal.fire({ icon: 'error', title: 'Pembayaran Gagal' });
+          window.location.href = "/depan";
         },
         onClose: function(){
-            alert("Anda menutup pop-up pembayaran sebelum menyelesaikan transaksi.");
+          alert("Transaksi dibatalkan.");
         }
-        });
+      });
     });
 </script>
 

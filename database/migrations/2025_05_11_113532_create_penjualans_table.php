@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('penjualan', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pelanggan_id')->constrained('pelanggan')->onDelete('cascade');
-            $table->string('no_faktur')->unique();
+            $table->string('no_faktur')->nullable();
             $table->enum('status', ['pesan', 'bayar'])->default('pesan');
             $table->dateTime('tgl');
             $table->decimal('tagihan', 15, 2)->nullable();

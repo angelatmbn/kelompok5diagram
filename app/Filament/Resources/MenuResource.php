@@ -24,13 +24,15 @@ class MenuResource extends Resource
 
     protected static ?string $navigationGroup = 'Masterdata';
 
+    protected static ?string $navigationGroup = 'Masterdata';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 TextInput::make('id_menu')
                     ->label('ID Menu')
-                    ->default(fn () => Menu::getIdMenu())
+                    ->default(fn() => Menu::getIdMenu())
                     ->required()
                     ->readonly(),
 
@@ -45,7 +47,8 @@ class MenuResource extends Resource
                     ->numeric()
                     ->placeholder('Masukkan harga menu')
                     ->reactive()
-                    ->afterStateUpdated(fn ($state, callable $set) =>
+                    ->afterStateUpdated(
+                        fn($state, callable $set) =>
                         $set('harga', number_format((float) preg_replace('/[^0-9]/', '', $state), 0, ',', '.'))
                     ),
 
@@ -59,9 +62,9 @@ class MenuResource extends Resource
                     ->options(KategoriMenu::all()->pluck('nama_kategori', 'id_kategori'))
                     ->required()
                     ->reactive()
-                    ->afterStateUpdated(fn ($state, callable $set) =>
-                        $set('nama_kategori', KategoriMenu::find($state)?->nama_kategori)
-                    ),
+                    ->afterStateUpdated(function ($state, callable $set) {
+                        $set('nama_kategori', KategoriMenu::find($state)?->nama_kategori);
+                    }),
 
                 TextInput::make('nama_kategori')
                     ->label('Nama Kategori')
@@ -86,7 +89,7 @@ class MenuResource extends Resource
                 TextColumn::make('nama_menu')->label('Nama Menu')->searchable()->sortable(),
                 TextColumn::make('harga')
                     ->label('Harga')
-                    ->formatStateUsing(fn (string|int|null $state): string => rupiah($state))
+                    ->formatStateUsing(fn(string|int|null $state): string => rupiah($state))
                     ->extraAttributes(['class' => 'text-right'])
                     ->sortable(),
                 ImageColumn::make('foto')->label('Foto'),
@@ -125,3 +128,4 @@ class MenuResource extends Resource
         ];
     }
 }
+

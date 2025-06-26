@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('alamat');
             $table->string('no_telp');
             $table->string('shift');
+            $table->integer('gaji_pokok');
             $table->timestamps();
         });
     }

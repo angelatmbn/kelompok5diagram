@@ -6,6 +6,9 @@ use App\Filament\Resources\PelangganResource\Pages;
 use App\Models\Pelanggan;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -26,13 +29,14 @@ class PelangganResource extends Resource
     protected static ?string $model = Pelanggan::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-face-smile';
+    // merubah nama label menjadi Pelanggan
     protected static ?string $navigationLabel = 'Pelanggan';
     protected static ?string $navigationGroup = 'Masterdata';
 
     public static function form(Form $form): Form
     {
         return $form
-        ->schema([
+            ->schema([
                 //direlasikan ke tabel user
                 Select::make('user_id')
                     ->label('User Id')
@@ -48,43 +52,43 @@ class PelangganResource extends Resource
                         }
                     }),
 
-            TextInput::make('id_pelanggan')
-                ->label('ID Pelanggan')
-                ->default(fn () => Pelanggan::getCustomerID())
-                ->readonly()
-                ->required(),
+                TextInput::make('id_pelanggan')
+                    ->label('ID Pelanggan')
+                    ->default(fn() => Pelanggan::getCustomerID())
+                    ->readonly()
+                    ->required(),
 
-            TextInput::make('nama_pelanggan')
-                ->label('Nama')
-                ->required(),
+                TextInput::make('nama_pelanggan')
+                    ->label('Nama')
+                    ->required(),
 
-            TextInput::make('alamat')
-                ->label('Alamat')
-                ->required(),
+                TextInput::make('alamat')
+                    ->label('Alamat')
+                    ->required(),
 
-            TextInput::make('telepon')
-                ->label('Telepon')
-                ->tel()
-                ->required(),
+                TextInput::make('telepon')
+                    ->label('Telepon')
+                    ->tel()
+                    ->required(),
 
-            TextInput::make('email')
-                ->label('Email')
-                ->email()
-                ->unique(ignoreRecord: true)
-                ->required(),
+                TextInput::make('email')
+                    ->label('Email')
+                    ->email()
+                    ->unique(ignoreRecord: true)
+                    ->required(),
 
-            DatePicker::make('tanggal_lahir')
-                ->label('Tanggal Lahir')
-                ->required(),
+                DatePicker::make('tanggal_lahir')
+                    ->label('Tanggal Lahir')
+                    ->required(),
 
-            Select::make('jenis_kelamin')
-                ->label('Jenis Kelamin')
-                ->options([
-                    'laki-laki' => 'Laki-laki',
-                    'perempuan' => 'Perempuan',
-                ])
-                ->required(),
-        ]);
+                Select::make('jenis_kelamin')
+                    ->label('Jenis Kelamin')
+                    ->options([
+                        'laki-laki' => 'Laki-laki',
+                        'perempuan' => 'Perempuan',
+                    ])
+                    ->required(),
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -98,16 +102,16 @@ class PelangganResource extends Resource
             TextColumn::make('tanggal_lahir')->label('Tanggal Lahir')->date(),
             TextColumn::make('jenis_kelamin')->label('Jenis Kelamin'),
         ])
-        ->actions([
-            Tables\Actions\ViewAction::make(),
-            Tables\Actions\EditAction::make(),
-            Tables\Actions\DeleteAction::make(),
-        ])
-        ->bulkActions([
-            Tables\Actions\BulkActionGroup::make([
-                Tables\Actions\DeleteBulkAction::make(),
-            ]),
-        ]);
+            ->actions([
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
+            ]);
     }
 
     public static function getRelations(): array

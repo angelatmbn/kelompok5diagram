@@ -12,7 +12,9 @@ use Filament\Tables\Table;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\DatePicker;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\TextColumn;
 
 class PegawaiiResource extends Resource
@@ -27,6 +29,9 @@ class PegawaiiResource extends Resource
         return $form->schema([
             TextInput::make('id_pegawai')
                 ->default(fn () => Pegawaii::getIdPegawai())
+        return $form->schema([
+            TextInput::make('id_pegawai')
+                ->default(fn () => Pegawaii::getIdPegawai())
                 ->label('Id Pegawai')
                 ->required()
                 ->readonly(),
@@ -35,7 +40,13 @@ class PegawaiiResource extends Resource
                 ->required()
                 ->placeholder('Masukkan nama pegawai'),
 
+                ->placeholder('Masukkan nama pegawai'),
+
             DatePicker::make('tanggal_lahir')
+                ->label('Tanggal Lahir')
+                ->required(),
+
+            TextInput::make('alamat')
                 ->label('Tanggal Lahir')
                 ->required(),
 
@@ -44,7 +55,29 @@ class PegawaiiResource extends Resource
                 ->required(),
 
             TextInput::make('no_telp')
+                ->required(),
+
+            TextInput::make('no_telp')
                 ->label('Nomor Telp')
+                ->required(),
+
+            Select::make('shift')
+                ->label('Shift')
+                ->options([
+                    'Siang' => 'Siang',
+                    'Malam' => 'Malam',
+                ])
+                ->required()
+                ->native(false)
+                ->searchable(),
+
+            TextInput::make('gaji_pokok')
+                ->label('Gaji Pokok')
+                ->required()
+                ->afterStateUpdated(function ($state, callable $set) {
+                    $set('gaji_pokok', number_format((float) preg_replace('/[^0-9]/', '', $state), 0, ',', '.'));
+                }),
+        ]);
                 ->required(),
 
             Select::make('shift')
@@ -96,6 +129,7 @@ class PegawaiiResource extends Resource
 
     public static function getRelations(): array
     {
+        return [];
         return [];
     }
 

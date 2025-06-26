@@ -44,13 +44,13 @@ class DetailPenjualan extends Model
         });
     }
 
-    //relasi ke tabel penjualan
+    // Relationship to Penjualan
     public function penjualan()
     {
         return $this->belongsTo(Penjualan::class, 'penjualan_id');
     }
 
-    //realsi ke tabel menu
+    // Relationship to Menu
     public function menu()
     {
         return $this->belongsTo(Menu::class, 'menu_id');

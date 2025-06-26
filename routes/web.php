@@ -1,44 +1,18 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/selamat', function () {
-    return view('Selamat',['nama' => 'Joko Susilo']);
-});
-
-Route::get('/nama', function () {
-    return view('nama',['nama' => 'Joko Susilo']);
-});
-
-Route::get('/tes', [App\Http\Controllers\ContohController::class, 'tes']);
-
-Route::resource('coa',App\Http\Controllers\CoaController::class);
-// untuk contoh perusahaan
-use App\Http\Controllers\PerusahaanController;
-Route::resource('perusahaan', PerusahaanController::class);
-Route::get('/perusahaan/destroy/{id}', [PerusahaanController::class,'destroy']);
-
-Route::get('/', function () {
-    // return view('welcome');
-    // diarahkan ke login customer
-    return view('login');
-});
-
-
-// login customer
-Route::get('/depan', [App\Http\Controllers\KeranjangController::class, 'daftarmenu'])
-     ->middleware(\App\Http\Middleware\CustomerMiddleware::class)
-     ->name('depan');
-Route::get('/login', function () {
-    return view('login');
-});
-
-// tambahan route untuk proses login
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Auth\RegisterController;
+
+// =====================
+// View Default & Login
+// =====================
+
+Route::get('/', function () {
+    return view('/login'); // default diarahkan ke login customer
+});
+
 Route::post('/login', [App\Http\Controllers\AuthController::class, 'login']);
 
 Route::get('/logout', function () {
